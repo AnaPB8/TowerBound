@@ -9,32 +9,146 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play TowerBound.</tw-noscript></noscript></tw-story>
-<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Intro 001" tags="" position="350,175" size="100,100">(set: $text to &quot;Desde el comienzo de su memoria, el mago se encuentra encerrado en una torre&quot;)
+<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
+    display: none;
+}a</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Intro 001" tags="" position="350,150" size="100,100">{
+(set: $text to &quot;Desde el comienzo de su memoria, el mago se encuentra encerrado en una torre.&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Intro 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="2" name="Intro 002" tags="" position="475,150" size="100,100">{
+(set: $text to &quot;Desde el comienzo de su memoria, no sabe como escapar.&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="3" name="Intro 003" tags="" position="600,150" size="100,100">{
+(set: $text to &quot;Llegado cierto punto, se sentía solo, y usó su magia para crear un compañero&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 004&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="4" name="Intro 004" tags="" position="725,150" size="100,100">{
+(set: $text to &quot;Un ser de pocas palabras, pero que alegraba el ambiente con su presencia&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 005&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="5" name="Intro 005" tags="" position="850,150" size="100,100">{
+(set: $text to &quot;Aún así, sus continuos intentos de escapar de su encierro eran inútiles&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="6" name="Intro 006" tags="" position="975,150" size="100,100">{
+(set: $text to &quot;Dime, ¿puedes ayudarles a escapar?&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Sí&quot;, &quot;passage&quot;, &quot;SiEscapan&quot;),(dm: &quot;name&quot;, &quot;No&quot;, &quot;passage&quot;, &quot;NoEscapan&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="" position="150,275" size="100,100">{
 (set: $i to 1)
-|output&gt;[]
+(set: $showLinks to false)
 
-(live: 0.05s)[
-      (if: $i &gt; (length of $text))[
-            (stop:)
-      ]
-      (else:)[
-            (replace: ?output)[(substring: $text, 1, $i)]
-            (set: $i to $i + 1)
-      ]
-      ]
-[[&gt;&gt; -&gt;Intro 002]]
-</tw-passagedata><tw-passagedata pid="2" name="Intro 002" tags="" position="475,175" size="100,100">(align:&quot;&lt;==&gt;&quot;)+(box:&quot;X&quot;)[Desde el comienzo de su memoria, no sabe como escapar]
+|bloque&gt;[
+    |output&gt;[]
+    &lt;br&gt;
+    |linksArea&gt;[
+        (if: $showLinks)[
+            (if: $links is not 0)[
+                (for: each _link, ...$links)[
+                    (link: _link&#39;s name)[
+                        (transition: &quot;dissolve&quot;)[
+                            (goto: _link&#39;s passage)
+                        ]
+                    ]
+                    &lt;br&gt;
+                ]
+            ]
+        ]
+    ]
+]
 
-[[&gt;&gt;-&gt;Intro 003]]</tw-passagedata><tw-passagedata pid="3" name="Intro 003" tags="" position="600,175" size="100,100">(align:&quot;&lt;==&gt;&quot;)+(box:&quot;X&quot;)[Llegado cierto punto, se sentía solo, y usó su magia para crear un compañero]
+(live: 0.02s)[
+    (if: $i &lt;= (length of $text))[
+        (replace: ?output)[
+            (substring: $text, 1, $i)
+        ]
+        (set: $i to $i + 1)
+    ]
+    (else:)[
+        (if: not $showLinks)[
+            (set: $showLinks to true)
+            (replace: ?linksArea)[
+                (transition: &quot;dissolve&quot;)[
+                    (if: $links is not 0)[
+                        (for: each _link, ...$links)[
+                            (link: _link&#39;s name)[
+                                (transition: &quot;dissolve&quot;)[
+                                    (goto: _link&#39;s passage)
+                                ]
+                            ]
+                            &lt;br&gt;
+                        ]
+                    ]
+                ]
+            ]
+            (stop:)
+        ]
+    ]
+]
+}
+</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="" position="275,275" size="100,100">{
+(set: $typewriterEnabled to true)
+(set: $youWantToHelp to false)
+}
+</tw-passagedata><tw-passagedata pid="9" name="SiEscapan" tags="" position="1100,75" size="100,100">{
+(set: $text to &quot;Interesante, esperaré a ver el fruto de tus esfuerzos&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 007&quot;)))
+(display: &quot;Typewriter&quot;)
+(set: $youWantToHelp to true)
+}</tw-passagedata><tw-passagedata pid="10" name="NoEscapan" tags="" position="1100,225" size="100,100">{
+(set: $text to &quot;Oh...\n...\n...\n...\nBueno, espero que cambies de opinión.&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 007&quot;)))
+(display: &quot;Typewriter&quot;)
+(set: $youWantToHelp to false)
+}</tw-passagedata><tw-passagedata pid="11" name="Intro 007" tags="" position="1225,150" size="100,100">{
+(set: $text to &quot;En cualquier caso, he de dejarte...\nSuerte, hagas lo que hagas&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 008 - TITLE&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="12" name="Intro 008 - TITLE" tags="" position="1350,150" size="100,100">{
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/logo_DEF.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
 
-[[&gt;&gt;-&gt;Intro 004]]</tw-passagedata><tw-passagedata pid="4" name="Intro 004" tags="" position="725,175" size="100,100">(align:&quot;&lt;==&gt;&quot;)+(box:&quot;X&quot;)[Un ser de pocas palabras, pero que alegraba el ambiente con su presencia]
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+    (link: &quot;&amp;#187&quot;)[ (goto: &quot;Intro 008 - TITLE&quot;) ]
+&lt;/div&gt;
 
-[[&gt;&gt;-&gt;Intro 005]]</tw-passagedata><tw-passagedata pid="5" name="Intro 005" tags="" position="875,175" size="100,100">(align:&quot;&lt;==&gt;&quot;)+(box:&quot;X&quot;)[Aún así, sus continuos intentos de escapar de su encierro eran inútiles]
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
 
-[[&gt;&gt;-&gt;Intro 006]]</tw-passagedata><tw-passagedata pid="6" name="Intro 006" tags="" position="875,300" size="100,100">(align:&quot;&lt;==&gt;&quot;)+(box:&quot;X&quot;)[Dime, ¿crees que lograrán escapar?]
-
-[[Sí-&gt;Creo que sí escapan]]
-[[No-&gt;Creo que no escapan]]</tw-passagedata><tw-passagedata pid="7" name="Creo que sí escapan" tags="" position="800,450" size="100,100">(align:&quot;&lt;==&gt;&quot;)+(box:&quot;X&quot;)[]</tw-passagedata><tw-passagedata pid="8" name="Creo que no escapan" tags="" position="925,450" size="100,100"></tw-passagedata></tw-storydata>
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function() {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
