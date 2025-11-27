@@ -35,59 +35,62 @@
 (set: $text to &quot;Dime, ¿puedes ayudarles a escapar?&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Sí&quot;, &quot;passage&quot;, &quot;SiEscapan&quot;),(dm: &quot;name&quot;, &quot;No&quot;, &quot;passage&quot;, &quot;NoEscapan&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="" position="150,275" size="100,100">{
-(set: $i to 1)
-(set: $showLinks to false)
-
-|bloque&gt;[
-    |output&gt;[]
-    &lt;br&gt;
-    |linksArea&gt;[
-        (if: $showLinks)[
-            (if: $links is not 0)[
-                (for: each _link, ...$links)[
-                    (link: _link&#39;s name)[
-                        (transition: &quot;dissolve&quot;)[
-                            (goto: _link&#39;s passage)
-                        ]
-                    ]
-                    &lt;br&gt;
-                ]
-            ]
-        ]
-    ]
-]
-
-(live: 0.02s)[
-    (if: $i &lt;= (length of $text))[
-        (replace: ?output)[
-            (substring: $text, 1, $i)
-        ]
-        (set: $i to $i + 1)
-    ]
-    (else:)[
-        (if: not $showLinks)[
-            (set: $showLinks to true)
-            (replace: ?linksArea)[
-                (transition: &quot;dissolve&quot;)[
-                    (if: $links is not 0)[
-                        (for: each _link, ...$links)[
-                            (link: _link&#39;s name)[
-                                (transition: &quot;dissolve&quot;)[
-                                    (goto: _link&#39;s passage)
-                                ]
-                            ]
-                            &lt;br&gt;
-                        ]
-                    ]
-                ]
-            ]
-            (stop:)
-        ]
-    ]
-]
-}
-</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="" position="275,275" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="" position="175,275" size="100,100">{
+	(set: $i to 1)
+	(set: $showLinks to false)
+	|bloque&gt;[
+		|output&gt;[] 
+		&lt;br&gt;
+		|linksArea&gt;[]
+	]
+	
+	(live: 0.02s)[
+		(if: $i &lt;= (length of $text))[
+			(set: $partial to (substring: $text, 1, $i))
+			(set: $lastChar to (substring: $partial, $i, 1))
+			(set: $last2Chars to &quot;&quot;)
+			(if: $i &gt;= 2)[
+				(set: $last2Chars to (substring: $partial, $i - 1, 2))
+			]
+			
+			&lt;!-- Si termina en &lt; o &lt;/ no mostrar todavía --&gt;
+			(if: $lastChar is &quot;&lt;&quot; or $last2Chars is &quot;&lt;/&quot;)[
+				&lt;!-- No mostrar nada, esperar --&gt;
+			]
+			(else-if: $lastChar is &quot;&gt;&quot;)[
+				&lt;!-- Completó etiqueta, mostrar todo --&gt;
+				(replace: ?output)[(print: $partial)]
+			]
+			(else:)[
+				&lt;!-- Carácter normal, mostrar --&gt;
+				(replace: ?output)[(print: $partial)]
+			]
+			
+			(set: $i to $i + 1)
+		]
+		(else:)[
+			(replace: ?output)[(print: $text)]
+			(if: not $showLinks)[
+				(set: $showLinks to true)
+				(replace: ?linksArea)[
+					(transition: &quot;dissolve&quot;)[
+						(if: $links is not 0)[
+							(for: each _link, ...$links)[
+								(link: _link&#39;s name)[
+									(transition: &quot;dissolve&quot;)[
+										(goto: _link&#39;s passage)
+									]
+								]
+								&lt;br&gt;
+							]
+						]
+					]
+				]
+			]
+			(stop:)
+		]
+	]
+}</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="" position="300,275" size="100,100">{
 (set: $typewriterEnabled to true)
 (set: $youWantToHelp to false)
 }
@@ -128,7 +131,7 @@
         transition: opacity 0.8s ease-in;
         pointer-events: none;
      &quot;&gt;
-    (link: &quot;&amp;#187;&quot;)[ (goto: &quot;Intro 008 - TITLE&quot;) ]
+    (link: &quot;&amp;#187;&quot;)[ (goto: &quot;PrePuertas 001&quot;) ]
 &lt;/div&gt;
 
 &lt;style&gt;
@@ -153,20 +156,235 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 002&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="14" name="PrePuertas 002" tags="" position="1350,400" size="100,100">{
-(set: $text to &quot;&lt;//El sol entra por entre las rejas de la ventana, iluminando la estancia.//&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-El sol entra por entre las rejas de la ventana, iluminando la estancia-&lt;/i&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 003&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="15" name="PrePuertas 003" tags="" position="1350,525" size="100,100">{
-(set: $text to &quot;&lt;//Un cuarto caóticamente ordenado, en palabras de su dueño, pues solo él comprende su lógica.//&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-Un cuarto caóticamente ordenado, en palabras de su dueño, pues solo él comprende su lógica-&lt;/i&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 004&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="16" name="PrePuertas 004" tags="" position="1350,650" size="100,100">{
-(set: $text to &quot;&lt;//Y hablando del rey de Roma, en la cama que hay frente a la ventana, alguien se está despertando...//&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-Y hablando del rey de Roma, en la cama que hay frente a la ventana, alguien se está despertando...-&lt;/i&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 005&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="17" name="PrePuertas 005" tags="" position="1475,650" size="100,100">{
-(set: $text to &quot;...\n&lt;//El mago se sienta en su cama, regresando al mundo de los vivos después de un profundo sueño//&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-El mago se sienta en su cama, regresando al mundo de los vivos después de un profundo sueño-&lt;/i&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="18" name="PrePuertas 006" tags="" position="1600,650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;...Ah, buenos días &lt;b&gt;Cubito de Hielo&lt;/b&gt;&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 007&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="19" name="PrePuertas 007" tags="" position="1600,525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-La mascota se alza desde su cama, idéntica a la del mago solo que de menor tamaño-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:D!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 008&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="20" name="PrePuertas 008" tags="" position="1600,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;En verdad, nunca dejará de haber un día en el que no me de gracia llamar a un pingüino &lt;i&gt;Cubito de Hielo&lt;/i&gt;&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 009&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="21" name="PrePuertas 009" tags="" position="1600,275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se da la vuelta, apoyándose sobre el marco de la ventana, mirando al cielo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 010&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="22" name="PrePuertas 010" tags="" position="1600,150" size="100,100">{
+(set: $text to &quot;-&lt;i&gt;Sus libros y las ventanas de la torre son su única conexión con el mundo exterior...&lt;/i&gt;-&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 011&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="23" name="PrePuertas 011" tags="" position="1725,150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Dime, ¿crees que te pareces a los pingüinos de verdad?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 012&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="24" name="PrePuertas 012" tags="" position="1850,150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Digamos que... no se como de fiable es mi interpretación de un pingüino...&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 013&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="25" name="PrePuertas 013" tags="" position="1850,275" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;... :(&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 014&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="26" name="PrePuertas 014" tags="" position="1850,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Cubito de Hielo se levanta, caminando hacia el mago...-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 015&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="27" name="PrePuertas 015" tags="" position="1850,525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Una vez se asienta cómodamente a su lado en la cama, le da un par de palmaditas en la espalda para subirle el ánimo, piando de manera alegre-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 016&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="28" name="PrePuertas 016" tags="" position="1850,650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;:)!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 017&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="29" name="PrePuertas 017" tags="" position="1975,650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Heh, es cierto que estar así no nos va a servir de nada&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 018&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="30" name="PrePuertas 018" tags="" position="2100,650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago salta de repente de la cama al suelo, habiendo recuperado energías-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Hay que ponerse a trabajar! Hoy estaba pensando en---&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;*Hacerse notar*&quot;, &quot;passage&quot;, &quot;PrePuertas 019&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="31" name="PrePuertas 019" tags="" position="2100,525" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¿¿¿Huh???&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Hacerse notar de nuevo&quot;, &quot;passage&quot;, &quot;PrePuertas 020a&quot;),(dm: &quot;name&quot;, &quot;Hacerse notar MÁS&quot;, &quot;passage&quot;, &quot;PrePuertas 020b&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="32" name="PrePuertas 020a" tags="" position="2100,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Oh, es ¿una luz que flota? ¡Hola!\n...\n...Cubito, ¿Las luces no hablan verdad?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021a&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="33" name="PrePuertas 021a" tags="" position="2150,275" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;¿...?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021a 01&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="34" name="PrePuertas 020b" tags="" position="2225,525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Una intensa luz dorada ciega tanto a mago como a pingüino momentáneamente-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Ugh...&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:C&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021b&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="35" name="PrePuertas 021b" tags="" position="2350,525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Quizás era innecesario el hacerse notar &lt;b&gt;&lt;u&gt;tanto&lt;/u&gt;&lt;/b&gt;-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021b 01&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="36" name="PrePuertas 021b 01" tags="" position="2475,525" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Oh, es ¿una luz que flota...? ¿Por qué has hecho eso...?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021b 02&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="37" name="PrePuertas 021b 02" tags="" position="2600,450" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Además, pobre Cubito!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:C&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;Deletrear &#39;&lt;i&gt;No era mi intención&lt;/i&gt;&#39; moviéndote lo suficientemente rápido&quot;, &quot;passage&quot;, &quot;PrePuertas 021b 03&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="38" name="PrePuertas 021a 01" tags="" position="2275,275" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Una pregunta, ¿puedes cambiar de color o es solo dorado?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;Cambiar de color varias veces como si fuera una fiesta&quot;, &quot;passage&quot;, &quot;PrePuertas 021a 02&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="39" name="PrePuertas 021a 02" tags="" position="2400,275" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Es genial!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:O&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas DECISIÓN&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="40" name="PrePuertas 021b 03" tags="" position="2525,325" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Ah, no pasa nada, da igual, pero por favor evita repetirlo...&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;Moverse hacia arriba y hacia abajo (asentir)&quot;, &quot;passage&quot;, &quot;PrePuertas DECISIÓN&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="41" name="PrePuertas DECISIÓN" tags="" position="2525,200" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;En fin, ¿te gustaría venir con nosotros? Estamos buscando una forma de escapar de aquí. Llevamos atrapados...\n\n&lt;b&gt;&lt;i&gt;...mucho tiempo&lt;/i&gt;&lt;/b&gt;&lt;/span&gt;&quot;)
+(set: $links to 0)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Si&quot;, &quot;passage&quot;, &quot;A las Puertas 001&quot;),(dm: &quot;name&quot;, &quot;No&quot;, &quot;passage&quot;, &quot;Final escapa solo 001&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="42" name="Final escapa solo 001" tags="" position="2650,225" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Decidiste que, siendo una luz, podrías escaparte perfectamente entre las rendijas por tu cuenta-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;*&gt;&gt;*&quot;, &quot;passage&quot;, &quot;Final escapa solo 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="43" name="Final escapa solo 002" tags="" position="2775,225" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Así que eso fue exactamente lo que hiciste-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;*&gt;&gt;*&quot;, &quot;passage&quot;, &quot;Final escapa solo 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="44" name="Final escapa solo 003" tags="" position="2900,225" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Ambos presenciaron tu salida, levemente sorprendidos, pero tampoco le dieron muchas vueltas-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;*&gt;&gt;*&quot;, &quot;passage&quot;, &quot;Final escapa solo 004&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="45" name="Final escapa solo 004" tags="" position="3025,275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Todo seguiría siendo como siempre ha sido, pero ellos estaban seguros de que conseguirían escapar...\n...algún día-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;*&gt;&gt;*&quot;, &quot;passage&quot;, &quot;Final escapa solo 005&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="46" name="Final escapa solo 005" tags="" position="3025,400" size="100,100">{
+(set: $text to &quot;...oh&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Final escapa solo 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="47" name="Final escapa solo 006" tags="" position="3025,525" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Bueno, has hecho exactamente lo que prometiste&quot;)
+]
+(else:)[
+	(set: $text to &quot;Así que mentiste cuando dijiste que querías ayudar…&quot;)
+]
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Final escapa solo 007&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="48" name="Final escapa solo 007" tags="" position="3025,650" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;No sé por qué me esperaba algo más... algo mejor que esto&quot;)
+]
+(else:)[
+	(set: $text to &quot;Eso no está nada bien, pensé que esta vez sería diferente&quot;)
+]
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Final escapa solo 008&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="49" name="Final escapa solo 008" tags="" position="3025,775" size="100,100">{
+(set: $text to &quot;En fin, puedes irte, esto no ha servido para nada&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Final escapa solo 009&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="50" name="Final escapa solo 009" tags="" position="2900,775" size="100,100">{
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/logo_DEF.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;PrePuertas DECISIÓN&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO INICIAL&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="51" name="A las Puertas 001" tags="" position="2525,75" size="100,100">{
+(set: $links to 0)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Genial!\nVen por aquí entonces&lt;/span&gt;&quot;)
+(set: $links to (a:
+     (dm: &quot;name&quot;,&quot;&gt;&gt;&quot;,&quot;passage&quot;,&quot;A las Puertas 002&quot;)
+))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="52" name="FIN DEL JUEGO INICIAL" tags="" position="2775,775" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#d9d9d9&#39;&gt;&lt;b&gt;Fin Del Juego&lt;/b&gt;\n===========\nTu historia llega a su fin aquí.\nGracias por jugar&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Reiniciar Juego&quot;,&quot;passage&quot;, &quot;Intro 001&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="53" name="A las Puertas 002" tags="" position="2650,75" size="100,100">{
+(set: $text to &quot;&lt;i&gt;Los tres os acerais hacia una pared&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Esta habitación tiene dos puertas, una naranja y otra morada, que llevan a sitios diferentes&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;A las Puertas 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="54" name="A las Puertas 003" tags="" position="2775,75" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Lo primero que hacemos Cubito y yo todos los días es decidir por cual de ellas buscar una salida, ¿verdad Cubito?&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;A las Puertas 004&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="55" name="A las Puertas 004" tags="" position="2900,75" size="100,100">{
+(set: $text to &quot;&lt;i&gt;El pingüino asiente&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;A las Puertas 005&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="56" name="A las Puertas 005" tags="" position="3025,75" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;El mayor problema que tenemos es que lo que hay detrás de estas puertas a veces cambia, y a veces no...&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;A las Puertas 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="57" name="A las Puertas 006" tags="" position="3150,75" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;En fin, como eres nuevo por aquí, te toca elegir\n¿Que puerta prefieres?&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;La naranja&quot;, &quot;passage&quot;, &quot;Puerta Naranja&quot;),(dm: &quot;name&quot;, &quot;La morada&quot;, &quot;passage&quot;, &quot;Puerta Morada&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
