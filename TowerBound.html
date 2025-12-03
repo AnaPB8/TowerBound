@@ -9,10 +9,10 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play TowerBound.</tw-noscript></noscript></tw-story>
-<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
+<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
     display: none;
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-passagedata pid="1" name="Intro 001" tags="" position="350,150" size="100,100">{
+</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-tag name="Cambio-variable" color="blue"></tw-tag><tw-passagedata pid="1" name="Intro 001" tags="" position="350,150" size="100,100">{
 (set: $text to &quot;Desde el comienzo de su memoria, el mago se encuentra encerrado en una torre.&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Intro 002&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -94,13 +94,14 @@
 }</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="" position="300,275" size="100,100">{
 (set: $typewriterEnabled to true)
 (set: $youWantToHelp to false)
+(set: $ceilingOut to false)
 }
-</tw-passagedata><tw-passagedata pid="9" name="SiEscapan" tags="" position="1100,75" size="100,100">{
+</tw-passagedata><tw-passagedata pid="9" name="SiEscapan" tags="Cambio-variable" position="1100,75" size="100,100">{
 (set: $text to &quot;Interesante, esperaré a ver el fruto de tus esfuerzos&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 007&quot;)))
 (display: &quot;Typewriter&quot;)
 (set: $youWantToHelp to true)
-}</tw-passagedata><tw-passagedata pid="10" name="NoEscapan" tags="" position="1100,225" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="10" name="NoEscapan" tags="Cambio-variable" position="1100,225" size="100,100">{
 (set: $text to &quot;Oh...\n...\n...\n...\nBueno, espero que cambies de opinión.&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 007&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -197,7 +198,7 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 012&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="24" name="PrePuertas 012" tags="" position="1850,150" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Digamos que... no se como de fiable es mi interpretación de un pingüino...&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Digamos que... no se cómo de fiable es mi interpretación de un pingüino...&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 013&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="25" name="PrePuertas 013" tags="" position="1850,275" size="100,100">{
@@ -370,6 +371,8 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;span style=&#39;color:#d9d9d9&#39;&gt;&lt;b&gt;Fin Del Juego&lt;/b&gt;\n===========\nTu historia llega a su fin aquí.\nGracias por jugar&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Reiniciar Juego&quot;,&quot;passage&quot;, &quot;Intro 001&quot;)))
 (display: &quot;Typewriter&quot;)
+(set: $youWantToHelp to false)
+(set: $ceilingOut to false)
 }</tw-passagedata><tw-passagedata pid="53" name="A las Puertas 002" tags="" position="2650,75" size="100,100">{
 (set: $text to &quot;&lt;i&gt;Los tres os acerais hacia una pared&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Esta habitación tiene dos puertas, una naranja y otra morada, que llevan a sitios diferentes&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;A las Puertas 003&quot;)))
@@ -406,10 +409,11 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;i&gt;-El mago se gira hacia ti-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Oye, luz brillante! ¿Qué opinas? ¿Cruzamos o buscamos otra cosa? ¡Yo voto por el espejo! ¡Siempre hay que elegir la opción más emocionante!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Espejo 004&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="62" name="Espejo 004" tags="Decisión" position="3200,700" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="62" name="Espejo 004" tags="Decisión Cambio-variable" position="3200,700" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-Cubito mira al espejo con curiosidad, inclinando la cabeza-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ•ᴥ•ʔﾉ♡&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Acercarse al espejo&quot;, &quot;passage&quot;, &quot;Espejo 005&quot;),(dm: &quot;name&quot;, &quot;Ignorar el espejo y buscar otra salida&quot;, &quot;passage&quot;, &quot;No espejo 001&quot;)))
 (display: &quot;Typewriter&quot;)
+(set: $ceilingOut to false)
 }</tw-passagedata><tw-passagedata pid="63" name="Espejo 005" tags="" position="3125,825" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-El mago retira el paño. El espejo muestra un pasillo oscuro con una puerta al final-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Portal 001&quot;)))
@@ -560,12 +564,11 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;i&gt;-Cubito se esconde dentro del abrigo del mago, nervioso y aleteando rápido-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;&gt;_&lt;&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;No espejo 007&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="87" name="No espejo 007" tags="" position="4025,825" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="87" name="No espejo 007" tags="Cambio-variable" position="4025,825" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-La pared se agrieta y toda la habitación comienza a derrumbarse frente a vosotros-&lt;/i&gt;\n&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite;&#39;&gt;&lt;b&gt;¡CRACK!&lt;/b&gt;&lt;/span&gt;&quot;)
-
 (set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;No espejo 008&#39;)))
 (display: &#39;Typewriter&#39;)
-
+(set: $ceilingOut to true)
 &lt;style&gt;
 @keyframes shake {
     0%   { transform: translate(0px, 0px) rotate(0deg); }
@@ -619,7 +622,6 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;i&gt;-Intentas buscar otra salida, pero no hay tiempo...\n&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite;&#39;&gt;&lt;b&gt;...la habitación se desploma por completo&lt;/b&gt;&lt;/span&gt;-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 002&quot;)))
 (display: &quot;Typewriter&quot;)
-
 &lt;style&gt;
 @keyframes shake {
     0%   { transform: translate(0px, 0px) rotate(0deg); }
@@ -633,26 +635,19 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;i&gt;-El mago, tosiendo entre el polvo, grita-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡NO! ¡No puede ser! ¡No nos rendiremos! ¡Cubito, Luz, resistid!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 003&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="100" name="Tu solucion 003" tags="" position="4450,1075" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="100" name="Tu solucion 003" tags="" position="4450,1125" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;︵╰(°□°)╯︵&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 004&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="101" name="Tu solucion 004" tags="" position="4450,1200" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-Los escombros caen sin piedad.\n
-El mago, con las manos ensangrentadas, intenta una y otra vez un hechizo tras otro bajo la luz que le proporcionas...\n
-...pero sus palabras se ahogan en el polvo, y sus dedos tiemblan bajo el peso de los hechizos que son incapaces de salvaros....-&lt;/i&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="101" name="Tu solucion 004" tags="" position="4425,1250" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Los escombros caen sin piedad.\nEl mago, con las manos ensangrentadas, intenta una y otra vez un hechizo tras otro bajo la luz que le proporcionas...\n...pero sus palabras se ahogan en el polvo, y sus dedos tiemblan bajo el peso de los hechizos que son incapaces de salvaros....-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 005&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="102" name="Tu solucion 005" tags="" position="4450,1325" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No... no puede ser el final...\n
-Cubito, ¿me escuchas?\n
-¡Luz, no nos dejes en la oscuridad!\n
-Por favor, un poco más de tiempo...\n
+}</tw-passagedata><tw-passagedata pid="102" name="Tu solucion 005" tags="" position="4375,1375" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No... no puede ser el final...\nCubito, ¿me escuchas?\n¡Luz, no nos dejes en la oscuridad!\nPor favor, un poco más de tiempo...\n
 Un...\n &lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;&lt;i&gt;...respiro&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&quot;)
-
 (set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;Tu solucion 006&#39;)))
 (display: &#39;Typewriter&#39;)
-
 &lt;style&gt;
 @keyframes fadePulse {
     0%   { opacity: 1; }
@@ -661,28 +656,22 @@ Un...\n &lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in
 }
 &lt;/style&gt;
 }
-</tw-passagedata><tw-passagedata pid="103" name="Tu solucion 006" tags="" position="4325,1325" size="100,100">{
+</tw-passagedata><tw-passagedata pid="103" name="Tu solucion 006" tags="" position="4250,1375" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-Cubito de Hielo, atrapado bajo una losa, levanta la cabeza con esfuerzo-&lt;/i&gt;&lt;span style=&#39;color:#8FD6FF&#39;&gt;(╥_╥)&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 007&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="104" name="Tu solucion 007" tags="" position="4200,1325" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="104" name="Tu solucion 007" tags="" position="4125,1375" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-El mago extiende su brazo, dándole la mano a Cubito\n\n...por última vez-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 008&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="105" name="Tu solucion 008" tags="" position="4075,1325" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="105" name="Tu solucion 008" tags="" position="4000,1375" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-La luz del jugador parpadea, como una vela a punto de apagarse-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 009&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="106" name="Tu solucion 009" tags="" position="3950,1325" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-El mago se dirige a ti, susurrando-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Oye... luz\n
-Sea lo que seas..., quien seas...\n
-gracias por estar aquí\n
-Aunque solo fuera un rato\n
-Aunque solo fuera...\n
-&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;...un sueño.&lt;/span&gt;&lt;/span&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="106" name="Tu solucion 009" tags="" position="3875,1375" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se dirige a ti, susurrando-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Oye... luz\nSea lo que seas..., quien seas...\ngracias por estar aquí\nAunque solo fuera un rato\nAunque solo fuera...\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;...un sueño.&lt;/span&gt;&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 010&quot;)))
 (display: &quot;Typewriter&quot;)
-
 &lt;style&gt;
 @keyframes fadePulse {
     0%   { opacity: 1; }
@@ -690,33 +679,31 @@ Aunque solo fuera...\n
     100% { opacity: 1; }
 }
 &lt;/style&gt;
-}</tw-passagedata><tw-passagedata pid="107" name="Tu solucion 010" tags="" position="3825,1325" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-Cubito cierra los ojos\n
-El mago sonríe, exhausto\n
-El silencio lo llena todo\n-&lt;/i&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="107" name="Tu solucion 010" tags="" position="3750,1375" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Cubito cierra los ojos\nEl mago sonríe, exhausto\nEl silencio lo llena todo-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 011&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="108" name="Tu solucion 011" tags="" position="3700,1325" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="108" name="Tu solucion 011" tags="" position="3625,1375" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-La luz se apaga-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Final luchando hasta el final 001&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="109" name="Final luchando hasta el final 001" tags="" position="3575,1325" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="109" name="Final luchando hasta el final 001" tags="" position="3625,1500" size="100,100">{
 (set: $text to &quot;...gracias&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Final luchando hasta el final 002&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="110" name="Final luchando hasta el final 002" tags="" position="3575,1450" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="110" name="Final luchando hasta el final 002" tags="" position="3625,1625" size="100,100">{
 (set: $text to &quot;Nunca te fuiste, estuviste hasta el final y lo intentaste, aunque fuera en vano&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Final luchando hasta el final 003&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="111" name="Final luchando hasta el final 003" tags="" position="3575,1575" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="111" name="Final luchando hasta el final 003" tags="" position="3625,1750" size="100,100">{
 (set: $text to &quot;Eso es lo único que importa, al final. Que lo intentamos.&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Final luchando hasta el final 004&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="112" name="Final luchando hasta el final 004" tags="" position="3575,1700" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="112" name="Final luchando hasta el final 004" tags="" position="3625,1875" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Juntos... hasta el último segundo&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Final luchando hasta el final 005&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="113" name="Final luchando hasta el final 005" tags="" position="3575,1825" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="113" name="Final luchando hasta el final 005" tags="" position="3625,2000" size="100,100">{
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -776,17 +763,430 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;i&gt;-El mago se da cuenta de que algo raro le ocurre a Cubito, y mira a la luz-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Luz... esto no es normal, ¡pero tú eres nuestra esperanza, nunca hemos llegado tan lejos!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Enigma 004&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="117" name="Enigma 004" tags="" position="3075,1825" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-El mago te mira, claramente nervioso por el estado de su amigo, a quien coje en brazos y posa en una esquina, tapándolo con su chaqueta, y se acerca a ti-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Hagámoslo juntos, salgamos de aquí y salvemos a Cubito&lt;/span&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="117" name="Enigma 004" tags="" position="3075,1850" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago te mira, claramente nervioso por el estado de su amigo, a quien coje en brazos y posa en una esquina, tapándolo con su chaqueta, y se acerca a ti-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Vamos, salgamos de aquí y salvemos a Cubito&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Enigma 005&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="118" name="Enigma 005" tags="" position="2950,1825" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-Detalles del salón:&lt;ul style=&#39;margin-left:20px;&#39;&gt;
-    &lt;li&gt;&lt;b&gt;Reloj de arena:&lt;/b&gt; Arena negra y blanca. Las runas dicen: &#39;El tiempo no se detiene, pero puede invertirse&#39; y &#39;La luz ilumina lo que la sombra esconde&#39;.&lt;/li&gt;
-    &lt;li&gt;&lt;b&gt;Candado:&lt;/b&gt; Tiene un símbolo de reloj y un símbolo de espejo.&lt;/li&gt;&lt;/ul&gt;&lt;/i&gt;
+}</tw-passagedata><tw-passagedata pid="118" name="Enigma 005" tags="Decisión" position="2950,1850" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Detalles del salón:-&lt;/i&gt;&lt;ul style=&#39;margin-left:20px;&#39;&gt;&lt;li&gt;&lt;i&gt;&lt;b&gt;Reloj de arena:&lt;/b&gt; Arena negra y blanca. Las runas dicen: &#39;El tiempo no se detiene, pero puede invertirse&#39; y &#39;La luz ilumina lo que la sombra esconde&#39;.&lt;/i&gt;&lt;/li&gt;&lt;li&gt;&lt;i&gt;&lt;b&gt;Candado:&lt;/b&gt; Tiene un símbolo de reloj y un símbolo de espejo.&lt;/i&gt;&lt;/li&gt;&lt;/ul&gt;
 &quot;)
-(set: $links to (a: (dm: &quot;name&quot;, &quot;Iluminar las runas en el espejo del candado&quot;, &quot;passage&quot;, &quot;Ilumina Runas 001&quot;),(dm: &quot;name&quot;, &quot;Intentar reflejar tu luz en el reloj de arena&quot;, &quot;passage&quot;, &quot;Regleja Reloj 001&quot;), (dm: &quot;name&quot;, &quot;Ignorar el enigma y abandonar a Cubito&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 001&quot;)))
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Iluminar las runas en el espejo del candado&quot;, &quot;passage&quot;, &quot;Ilumina Runas 001&quot;),(dm: &quot;name&quot;, &quot;Intentar reflejar tu luz en el reloj de arena&quot;, &quot;passage&quot;, &quot;Refleja Reloj 001&quot;), (dm: &quot;name&quot;, &quot;Ignorar el enigma y abandonar a Cubito&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 001&quot;)))
 (display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="119" name="Ilumina Runas 001" tags="" position="2900,1725" size="100,100">{
+(if: $ceilingOut is false)[
+	(set: $text to &quot;&lt;i&gt;-Te concentras en el espejo del candado, iluminando las runas. El candado se abre con un clic, pero el techo empieza a agrietarse-&lt;/i&gt;&quot;)
+]
+(else:)[
+	(set: $text to &quot;&lt;i&gt;-Te concentras en el espejo del candado, iluminando las runas. El candado se abre con un clic, pero el techo empieza a agrietarse-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Esto no puede estar pasándo otra vez!&lt;/span&gt;&quot;)
+]
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Ilumina Ruinas 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="120" name="Refleja Reloj 001" tags="" position="2825,1850" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te enfocas en el reloj, iluminándolo y haciendo que la arena se invierta. El candado se abre, y el reloj congela el tiempo el tiempo suficiente para que el mago lleve a Cubito a la salida antes de que la puerta se cierre-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="121" name="Ignorarlo Todo 001" tags="" position="2900,1975" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Decides, para sorpresa del mago, que te mira desesperado, no hacer nada-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="122" name="Ilumina Ruinas 002" tags="Decisión" position="2900,1600" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago grita desesperado, y corre hacia Cubito, el polvo y los escombros que van chocando con él dificultando su visión-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡La puerta está abierta! ¡Pero el techo...! ¡Cubito, no puedo dejarte aquí! ¡Luz, ilumina el camino... por favor!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Iluminar el camino hasta Cubito&quot;, &quot;passage&quot;, &quot;Escape en equipo 001&quot;),(dm: &quot;name&quot;, &quot;Mantenerse iluminando la puerta&quot;, &quot;passage&quot;, &quot;Solo tu y el mago 001&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="123" name="Escape en equipo 001" tags="" position="2775,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago consigue llegar hasta Cubito, cargándolo en brazos, y todos lográis escapar justo a tiempo-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="124" name="Escape en equipo 002" tags="" position="2650,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Una vez fuera, Cubito despierta, piando feliz-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="125" name="Escape en equipo 003" tags="" position="2525,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago, incrédulo, os mira a los dos-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Lo, lo logramos... ¡Estamos libres! ¡Y juntos! ¡Tú nos salvaste!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 004&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="126" name="Escape en equipo 004" tags="" position="2400,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Los tres, vivos y felices, os adentráis en el mundo exterior, con toda una nueva aventura por delante-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 005&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="127" name="Escape en equipo 005" tags="" position="2275,1525" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Veo que has cambiado de opinión, y solo puedo darte las gracias&quot;)
+]
+(else:)[
+	(set: $text to &quot;Eres alguien que cumple con lo que promete, y debo agradecértelo&quot;)
+]
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="128" name="Escape en equipo 006" tags="" position="2150,1525" size="100,100">{
+(set: $text to &quot;Ahora el mago es feliz, tenemos el mundo entero a nuestro alcance, y tú fuiste el destello que lo hizo todo posible&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 007&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="129" name="Escape en equipo 007" tags="" position="2025,1525" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Gracias por no apagar la luz&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 008&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="130" name="Escape en equipo 008" tags="" position="1900,1525" size="100,100">{
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/logo_DEF.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Bueno: Libertad Compartida
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Ilumina Ruinas 002&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="131" name="Solo tu y el mago 001" tags="" position="2775,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago te mira, dándose cuenta de que no vas a ser de ayuda. Agotado, intenta usar sus poderes para sostener los escombros, pero falla-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Ugh...!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="132" name="Solo tú y el mago 002" tags="" position="2650,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-La voz del mago se quiebra, por mucho que intente evitar los escombros y proteger a Cubito de ellos, esto es demasiado, y no es capaz de verlo todo-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="133" name="Solo tú y el mago 003" tags="" position="2525,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Cubito de Hielo abre levemente los ojos, y con las pocas fuerzas que le quedan le señala al mago la puerta, pidiéndole que se vaya-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(╥_╥)&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 004&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="134" name="Solo tú y el mago 004" tags="" position="2400,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Los escombros cubren a Cubito completamente, y se oye un grito de desesperación proveniente del mago-&lt;/i&gt;\n&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite; color:#c27cff&#39;&gt;¡¡¡¡NOOOOO!!!!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 005&quot;)))
+(display: &quot;Typewriter&quot;)
+&lt;style&gt;
+@keyframes shake {
+    0%   { transform: translate(0px, 0px) rotate(0deg); }
+    25%  { transform: translate(1px, -1px) rotate(-1deg); }
+    50%  { transform: translate(-1px, 1px) rotate(1deg); }
+    75%  { transform: translate(1px, 1px) rotate(0deg); }
+    100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+&lt;/style&gt;
+}</tw-passagedata><tw-passagedata pid="135" name="Solo tú y el mago 005" tags="" position="2275,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Al mago le siguen cayendo escombros encima, uno tras otro, pero finalmente se acerca a la puerta-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="136" name="Solo tú y el mago 006" tags="" position="2150,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Tras abrirla, mago sale solo, pero se desploma al saber lo que ha sido de Cubito, por lo que te mira con rabia-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 007&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="137" name="Solo tú y el mago 007" tags="" position="2025,1650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;...\n...\n...\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;&lt;i&gt;¿...por qué...?&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&quot;)
+(set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;Solo tú y el mago 008&#39;)))
+(display: &#39;Typewriter&#39;)
+&lt;style&gt;
+@keyframes fadePulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.15; }
+    100% { opacity: 1; }
+}
+&lt;/style&gt;
+}
+</tw-passagedata><tw-passagedata pid="138" name="Solo tú y el mago 008" tags="" position="1900,1650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite; color:#c27cff&#39;&gt;&lt;b&gt;¿¡POR QUÉ!?&lt;/b&gt;&lt;/span&gt;&quot;)
+(set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;Solo tú y el mago 009&#39;)))
+(display: &#39;Typewriter&#39;)
+&lt;style&gt;
+@keyframes shake {
+    0%   { transform: translate(0px, 0px) rotate(0deg); }
+    25%  { transform: translate(1px, -1px) rotate(-1deg); }
+    50%  { transform: translate(-1px, 1px) rotate(1deg); }
+    75%  { transform: translate(1px, 1px) rotate(0deg); }
+    100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+&lt;/style&gt;
+}
+</tw-passagedata><tw-passagedata pid="139" name="Solo tú y el mago 009" tags="" position="1775,1650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡TÚ! ¡Tú lo dejaste ahí! ¡Tú pudiste salvarlo! ¡Y ahora está...!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 010&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="140" name="Solo tú y el mago 011" tags="" position="1650,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago no dice nada más, ojos perdidos en algún lugar al que no puedes llegar-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 012&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="141" name="Solo tú y el mago 010" tags="" position="1650,1650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;...&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 011&quot;)))
+(display: &quot;Typewriter&quot;)
+</tw-passagedata><tw-passagedata pid="142" name="Solo tú y el mago 012" tags="" position="1650,1400" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;...al menos cumpliste lo que prometiste&quot;)
+]
+(else:)[
+	(set: $text to &quot;Mentiste, esto es de todo menos ayuda&quot;)
+]
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Solo tú y el mago 013&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="143" name="Solo tú y el mago 013" tags="" position="1650,1275" size="100,100">{
+(set: $text to &quot;Elegiste apagar tu luz...\ny aunque el mago escapó.&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Solo tú y el mago 014&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="144" name="Solo tú y el mago 014" tags="" position="1650,1150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Su alma y yo nos quedamos aquí&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Solo tú y el mago 015&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="145" name="Solo tú y el mago 015" tags="" position="1650,1025" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Y tú...\n...tú seguirás siendo esa sombra que pudo habernos salvado&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Solo tú y el mago 016&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="146" name="Solo tú y el mago 016" tags="" position="1650,900" size="100,100">{
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/logo_DEF.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: El precio de la libertad
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Ilumina Ruinas 002&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="147" name="Refleja Reloj 002" tags="" position="2700,1850" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Todos conseguís escapar, y nada más salir Cubito abre los ojos-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="148" name="Refleja Reloj 003" tags="" position="2575,1850" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No...no me lo puedo creer, ¡estamos fuera!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="149" name="Refleja Reloj 004" tags="" position="2450,1850" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Los tres, tras una breve pausa para celebrar, os adentráis en el mundo exterior, con toda una nueva aventura por delante-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 005&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="150" name="Refleja Reloj 005" tags="" position="2325,1850" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Gracias por la ayuda a pesar de que no pensabas darla&quot;)
+]
+(else:)[
+	(set: $text to &quot;Gracias por cumplir con tu promesa&quot;)
+]
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Refleja Reloj 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="151" name="Refleja Reloj 006" tags="" position="2200,1850" size="100,100">{
+(set: $text to &quot;Pensé que esto iba a resultar aún más complicado, pero no puedo hacer nada más que agradecerte tu ayuda&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 007&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="152" name="Refleja Reloj 007" tags="" position="2075,1850" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Gracias por guiarnos con tu luz&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 008&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="153" name="Refleja Reloj 008" tags="" position="1950,1850" size="100,100">{
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/logo_DEF.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Bueno: Luz Guía
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Enigma 005&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="154" name="Ignorarlo Todo 002" tags="" position="2875,2100" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago decide no discutir, acercándose a Cubito, extendiendo sus brazos sobre el pingüino-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡No te mueras, amigo! ¡Aguanta! ¡Usaré mi magia!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 003&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="155" name="Ignorarlo Todo 003" tags="" position="2750,2100" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Intenta un hechizo tras otro, agotándo completamente sus energías, pero sus manos cada vez tiemblan más, y nada está mejorando-&lt;/i&gt;\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;&lt;i&gt;...por favor...&lt;/i&gt;&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 004&quot;)))
+(display: &quot;Typewriter&quot;)
+&lt;style&gt;
+@keyframes fadePulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.15; }
+    100% { opacity: 1; }
+}
+&lt;/style&gt;
+}</tw-passagedata><tw-passagedata pid="156" name="Ignorarlo Todo 004" tags="" position="2625,2100" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Cubito de Hielo abre los ojos por última vez, logrando darle la mano al mago y mirándolo con tristeza-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 005&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="157" name="Ignorarlo Todo 005" tags="" position="2500,2100" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago, completamente rendido, cae sin fuerzas a su lado. Toda la estancia se congela en silencio-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 006&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="158" name="Ignorarlo Todo 006" tags="" position="2375,2100" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Tu luz se apaga-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 007&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="159" name="Ignorarlo Todo 007" tags="" position="2250,2100" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Dijiste la verdad, no pensabas ayudar, pero no me esperaba esto&quot;)
+]
+(else:)[
+	(set: $text to &quot;No ayudaste al final, y esto probablemente es de lo peor que podría haber pasado&quot;)
+]
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 008&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="160" name="Ignorarlo Todo 008" tags="" position="2125,2100" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;El mago intentó salvarme y falló&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 009&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="161" name="Ignorarlo Todo 009" tags="" position="2000,2100" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Yo me quedé sin fuerzas.\nÉl... se quedó sin magia&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 010&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="162" name="Ignorarlo Todo 010" tags="" position="1875,2100" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Y tú...\n...tú solo fuiste la luz que nos vio morir&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 011&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="163" name="Ignorarlo Todo 011" tags="" position="1750,2100" size="100,100">{
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/logo_DEF.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: Luz de la Muerte
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Enigma 005&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
 }</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
