@@ -9,10 +9,113 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play TowerBound.</tw-noscript></noscript></tw-story>
-<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
+<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.3" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
     display: none;
-}
-</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-tag name="Cambio-variable" color="blue"></tw-tag><tw-passagedata pid="1" name="Intro 001" tags="" position="350,150" size="100,100">{
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// --- SISTEMA DE AUDIO --- 
+
+window.AudioSys = { 
+    tracks: {}, 
+    currentBgMusic: null, // Para trackear la música de fondo actual
+ 
+    get(name, src, loop=false) { 
+        if (!this.tracks[name]) { 
+            let a = new Audio(src); 
+            a.loop = loop; 
+            a.preload = "auto"; 
+            this.tracks[name] = a; 
+        }
+        // Actualizar loop por si cambió
+        this.tracks[name].loop = loop;
+        return this.tracks[name]; 
+    }, 
+ 
+    play(name, src, loop=false, volume=1.0) { 
+        let a = this.get(name, src, loop); 
+        a.volume = volume;
+        a.play().catch(err => console.log("Error playing audio:", err)); 
+        return a;
+    },
+
+    playBgMusic(name, src, loop=true, volume=0.5) {
+        // Para música de fondo que persiste entre pasajes
+        if (this.currentBgMusic && this.currentBgMusic !== name) {
+            this.fadeOut(this.currentBgMusic, 500);
+        }
+        this.currentBgMusic = name;
+        return this.play(name, src, loop, volume);
+    },
+ 
+    stop(name) { 
+        let a = this.tracks[name]; 
+        if (a) { 
+            a.pause(); 
+            a.currentTime = 0; 
+        }
+        if (this.currentBgMusic === name) {
+            this.currentBgMusic = null;
+        }
+    },
+
+    stopAll() {
+        for (let name in this.tracks) {
+            this.stop(name);
+        }
+    },
+ 
+    pause(name) { 
+        let a = this.tracks[name]; 
+        if (a) a.pause(); 
+    },
+
+    resume(name) {
+        let a = this.tracks[name];
+        if (a) a.play().catch(err => console.log("Error resuming:", err));
+    },
+
+    isPlaying(name) {
+        let a = this.tracks[name];
+        return a && !a.paused;
+    },
+
+    setVolume(name, volume) {
+        let a = this.tracks[name];
+        if (a) a.volume = Math.max(0, Math.min(1, volume));
+    },
+ 
+    fadeOut(name, time=1000) { 
+        let a = this.tracks[name]; 
+        if (!a) return; 
+ 
+        let startVol = a.volume;
+        let step = startVol / (time / 50); 
+        let fade = setInterval(() => { 
+            a.volume = Math.max(0, a.volume - step); 
+            if (a.volume <= 0) { 
+                clearInterval(fade); 
+                a.pause(); 
+                a.currentTime = 0; 
+                a.volume = startVol; // Restaurar volumen original
+                if (this.currentBgMusic === name) {
+                    this.currentBgMusic = null;
+                }
+            } 
+        }, 50); 
+    },
+
+    fadeIn(name, src, loop=false, targetVol=1.0, time=1000) {
+        let a = this.get(name, src, loop);
+        a.volume = 0;
+        a.play().catch(err => console.log("Error in fadeIn:", err));
+        
+        let step = targetVol / (time / 50);
+        let fade = setInterval(() => {
+            a.volume = Math.min(targetVol, a.volume + step);
+            if (a.volume >= targetVol) {
+                clearInterval(fade);
+            }
+        }, 50);
+    }
+};</script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-tag name="Cambio-variable" color="blue"></tw-tag><tw-passagedata pid="1" name="Intro 001" tags="" position="350,150" size="100,100">{
 (set: $text to &quot;Desde el comienzo de su memoria, el mago se encuentra encerrado en una torre.&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Intro 002&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -20,6 +123,7 @@
 (set: $text to &quot;Desde el comienzo de su memoria, no sabe como escapar.&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 003&quot;)))
 (display: &quot;Typewriter&quot;)
+(print: &quot;&lt;script&gt;AudioSys.playBgMusic(&#39;bgmusic&#39;, &#39;audio/ana-background.mp3&#39;, true, 0.5)&lt;/script&gt;&quot;)
 }</tw-passagedata><tw-passagedata pid="3" name="Intro 003" tags="" position="600,150" size="100,100">{
 (set: $text to &quot;Llegado cierto punto, se sentía solo, y usó su magia para crear un compañero&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 004&quot;)))
