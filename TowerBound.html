@@ -140,60 +140,127 @@ window.AudioSys = {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Sí&quot;, &quot;passage&quot;, &quot;SiEscapan&quot;),(dm: &quot;name&quot;, &quot;No&quot;, &quot;passage&quot;, &quot;NoEscapan&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="" position="175,275" size="100,100">{
-	(set: $i to 1)
-	(set: $showLinks to false)
-	|bloque&gt;[
-		|output&gt;[] 
-		&lt;br&gt;
-		|linksArea&gt;[]
-	]
-	
-	(live: 0.02s)[
-		(if: $i &lt;= (length of $text))[
-			(set: $partial to (substring: $text, 1, $i))
-			(set: $lastChar to (substring: $partial, $i, 1))
-			(set: $last2Chars to &quot;&quot;)
-			(if: $i &gt;= 2)[
-				(set: $last2Chars to (substring: $partial, $i - 1, 2))
-			]
-			
-			&lt;!-- Si termina en &lt; o &lt;/ no mostrar todavía --&gt;
-			(if: $lastChar is &quot;&lt;&quot; or $last2Chars is &quot;&lt;/&quot;)[
-				&lt;!-- No mostrar nada, esperar --&gt;
-			]
-			(else-if: $lastChar is &quot;&gt;&quot;)[
-				&lt;!-- Completó etiqueta, mostrar todo --&gt;
-				(replace: ?output)[(print: $partial)]
-			]
-			(else:)[
-				&lt;!-- Carácter normal, mostrar --&gt;
-				(replace: ?output)[(print: $partial)]
-			]
-			
-			(set: $i to $i + 1)
-		]
-		(else:)[
-			(replace: ?output)[(print: $text)]
-			(if: not $showLinks)[
-				(set: $showLinks to true)
-				(replace: ?linksArea)[
-					(transition: &quot;dissolve&quot;)[
-						(if: $links is not 0)[
-							(for: each _link, ...$links)[
-								(link: _link&#39;s name)[
-									(transition: &quot;dissolve&quot;)[
-										(goto: _link&#39;s passage)
-									]
-								]
-								&lt;br&gt;
-							]
-						]
-					]
+	(set: $uniqueId to (text: (random: 1, 999999)))
+	&lt;style&gt;
+		.tw-display ul, .tw-display ol {
+			list-style-position: inside;
+		}
+		.tw-display li:empty {
+			display: none;
+		}
+		.tw-display li {
+			opacity: 0;
+			transition: opacity 0.1s;
+		}
+		.tw-display li.tw-visible {
+			opacity: 1;
+		}
+	&lt;/style&gt;
+	&lt;div class=&quot;tw-container&quot; data-tw-id=&quot;(print: $uniqueId)&quot;&gt;
+		&lt;div class=&quot;tw-display&quot;&gt;&lt;/div&gt;
+		&lt;!-- Links de Harlowe que están invisibles --&gt;
+		&lt;div class=&quot;tw-links&quot; style=&quot;opacity: 0; pointer-events: none; transition: opacity 0.8s ease-in;&quot;&gt;
+			(if: $links is not 0)[
+				(for: each _link, ...$links)[
+					(link: _link&#39;s name)[(goto: _link&#39;s passage)]
+					&lt;br&gt;
 				]
 			]
-			(stop:)
-		]
-	]
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div id=&quot;data-text-(print: $uniqueId)&quot; style=&quot;display:none;&quot;&gt;
+		(print: $text)
+	&lt;/div&gt;
+	&lt;script&gt;
+	(function() {
+		setTimeout(function() {
+			const root = document.querySelectorAll(&#39;.tw-container&#39;);
+			const container = root[root.length - 1];
+			if (!container) return;
+			const display = container.querySelector(&#39;.tw-display&#39;);
+			const linksDiv = container.querySelector(&#39;.tw-links&#39;);
+			const id = container.getAttribute(&#39;data-tw-id&#39;);
+			const dataText = document.getElementById(&#39;data-text-&#39; + id);
+			if (!dataText) return;
+			
+			setTimeout(function() {
+				const temp = document.createElement(&#39;div&#39;);
+				temp.innerHTML = dataText.innerHTML;
+				
+				function getTextNodes(n, arr = []) {
+					if (n.nodeType === 3) arr.push(n);
+					else for (const c of n.childNodes) getTextNodes(c, arr);
+					return arr;
+				}
+				
+				function cloneEmpty(n) {
+					if (n.nodeType === 3) return document.createTextNode(&#39;&#39;);
+					const el = n.cloneNode(false);
+					for (const c of n.childNodes) el.appendChild(cloneEmpty(c));
+					return el;
+				}
+				
+				for (const n of temp.childNodes) {
+					display.appendChild(cloneEmpty(n));
+				}
+				
+				const originals = getTextNodes(temp);
+				const displays  = getTextNodes(display);
+				
+				let ni = 0, ci = 0;
+				let currentLi = null;
+				
+				function type() {
+					while (ni &lt; originals.length &amp;&amp; originals[ni].textContent.length === 0) {
+						ni++;
+					}
+					
+					if (ni &gt;= originals.length) {
+						// Asegurar que el último &lt;li&gt; sea visible si lo hay
+						if (currentLi) currentLi.classList.add(&#39;tw-visible&#39;);
+						// Termina animación
+						setTimeout(function() {
+							linksDiv.style.opacity = &#39;1&#39;;
+							linksDiv.style.pointerEvents = &#39;auto&#39;;
+						}, 200);
+						return;
+					}
+					
+					const t = originals[ni].textContent;
+					const displayNode = displays[ni];
+					
+					// Detectar si estamos en un &lt;li&gt;
+					let liParent = displayNode.parentElement;
+					while (liParent &amp;&amp; liParent.tagName !== &#39;LI&#39; &amp;&amp; liParent !== display) {
+						liParent = liParent.parentElement;
+					}
+					
+					if (liParent &amp;&amp; liParent.tagName === &#39;LI&#39;) {
+						// Nuevo &lt;li&gt; - hacerlo visible
+						if (liParent !== currentLi) {
+							if (currentLi) currentLi.classList.add(&#39;tw-visible&#39;);
+							currentLi = liParent;
+							currentLi.classList.add(&#39;tw-visible&#39;);
+						}
+					}
+					
+					displayNode.textContent += t[ci++];
+					
+					if (ci &gt;= t.length) { 
+						ni++; 
+						ci = 0; 
+					}
+					
+					setTimeout(type, 20);
+				}
+				
+				type();
+				
+			}, 500);
+			
+		}, 100);
+	})();
+	&lt;/script&gt;
 }</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="" position="300,275" size="100,100">{
 (set: $typewriterEnabled to true)
 (set: $youWantToHelp to false)
