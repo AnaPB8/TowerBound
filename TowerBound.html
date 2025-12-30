@@ -232,7 +232,7 @@ window.AudioSys = {
 
 
 
-</script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-tag name="Cambio-variable" color="blue"></tw-tag><tw-tag name="No_Skip" color="red"></tw-tag><tw-passagedata pid="1" name="Init" tags="No_Skip" position="225,150" size="100,100">{
+</script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-tag name="Cambio-variable" color="blue"></tw-tag><tw-tag name="No_Skip" color="red"></tw-tag><tw-tag name="Funcionalidad" color="green"></tw-tag><tw-passagedata pid="1" name="Init" tags="No_Skip" position="225,150" size="100,100">{
 (set: $text to &quot;Todo comienza con un mago...&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Intro 001&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -256,7 +256,7 @@ window.AudioSys = {
 (set: $text to &quot;Dime, ¿puedes ayudarles a escapar?&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Sí&quot;, &quot;passage&quot;, &quot;SiEscapan&quot;),(dm: &quot;name&quot;, &quot;No&quot;, &quot;passage&quot;, &quot;NoEscapan&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="" position="175,275" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="Funcionalidad" position="175,275" size="100,100">{
 	(set: $uniqueId to (text: (random: 1, 999999)))
 	&lt;style&gt;
 		.tw-display ul, .tw-display ol {
@@ -378,7 +378,7 @@ window.AudioSys = {
 		}, 100);
 	})();
 	&lt;/script&gt;
-}</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="" position="300,275" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="Funcionalidad" position="300,275" size="100,100">{
 (set: $youWantToHelp to false)
 (set: $ceilingOut to false)
 (set: $skipAllowed to true)
@@ -692,6 +692,7 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;La naranja&quot;, &quot;passage&quot;, &quot;Puerta Naranja&quot;),(dm: &quot;name&quot;, &quot;La morada&quot;, &quot;passage&quot;, &quot;Puerta Morada&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="58" name="Puerta Morada" tags="" position="3200,200" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;creak&#39;, &#39;audio/door_creak.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Te posicionas delante de la puerta morada, y el mago procede a empujarla, haciendo que se abra con un chirrido metálico-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Espejo 001&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -742,6 +743,7 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;bgmusic&#39;) {
 }
 &lt;/script&gt;&quot;)
 }</tw-passagedata><tw-passagedata pid="69" name="Libertad SOLO 001" tags="" position="3000,1350" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;mystic&#39;, &#39;audio/ana-mystical-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-El portal se cierra tas tu veloz escape...\n...dejando al mago y a Cubito &lt;b&gt;atrapados&lt;/b&gt;-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Libertad SOLO 002&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -1267,6 +1269,7 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 007&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="137" name="Solo tú y el mago 007" tags="" position="2025,1650" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;eerie&#39;, &#39;audio/eerie_slow.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;...\n...\n...\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite; font-size:0.7em;&#39;&gt;&lt;i&gt;¿...por qué...?&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&quot;)
 (set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;Solo tú y el mago 008&#39;)))
 (display: &#39;Typewriter&#39;)
