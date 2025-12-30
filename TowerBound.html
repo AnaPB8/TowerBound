@@ -9,9 +9,37 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play TowerBound.</tw-noscript></noscript></tw-story>
-<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
+<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
     display: none;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// --- SISTEMA DE AUDIO --- 
+}
+
+/* BOTÓN SKIP */
+#skip-button {
+	position: fixed;
+	top: 16px;
+	right: 16px;
+	z-index: 9999;
+	padding: 8px 14px;
+	border-radius: 20px;
+	font-size: 14px;
+	font-family: inherit;
+	background: rgba(255,255,255,0.08);
+	color: #aaa;
+	border: 1px solid rgba(255,255,255,0.2);
+	user-select: none;
+	transition: all 0.2s ease;
+}
+
+#skip-button.enabled {
+	color: #5fa8ff;
+	border-color: #5fa8ff;
+	cursor: pointer;
+}
+
+#skip-button.enabled:hover {
+	background: rgba(95,168,255,0.15);
+}
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// --- SISTEMA DE AUDIO --- 
 
 window.AudioSys = { 
     tracks: {}, 
@@ -115,7 +143,96 @@ window.AudioSys = {
             }
         }, 50);
     }
-};</script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-tag name="Cambio-variable" color="blue"></tw-tag><tw-passagedata pid="1" name="Init" tags="" position="225,150" size="100,100">{
+};
+
+// --- SKIP BUTTON ---
+(function () {
+
+	function ensureSkipButton() {
+		if (document.getElementById('skip-button')) return;
+
+		const btn = document.createElement('div');
+		btn.id = 'skip-button';
+		btn.textContent = 'SKIP';
+		document.body.appendChild(btn);
+
+		btn.addEventListener('click', () => {
+			if (!btn.classList.contains('enabled')) return;
+
+			const passage = document.querySelector('tw-passage');
+			if (!passage) return;
+
+			const links = passage.querySelectorAll('tw-link');
+			if (links.length === 1) {
+				links[0].click();
+			}
+		});
+	}
+
+	function getCurrentTags() {
+		const passage = document.querySelector('tw-passage');
+		if (!passage) return [];
+
+		const direct = (passage.getAttribute('tags') || '').trim();
+		if (direct) return direct.split(/\s+/).filter(Boolean);
+
+		const name = passage.getAttribute('name') || '';
+		const storydata = document.querySelector('tw-storydata');
+		if (!storydata || !name) return [];
+
+		const pd = storydata.querySelector(`tw-passagedata[name="${CSS.escape(name)}"]`);
+		if (!pd) return [];
+
+		const tags = (pd.getAttribute('tags') || '').trim();
+		return tags ? tags.split(/\s+/).filter(Boolean) : [];
+	}
+
+	function updateSkipState() {
+		const btn = document.getElementById('skip-button');
+		if (!btn) return;
+
+		btn.classList.remove('enabled');
+
+		const tags = getCurrentTags();
+		if (tags.includes('Decisión') || tags.includes('Decision')) return;
+		if (tags.includes('No_Skip')) return;
+
+		const passage = document.querySelector('tw-passage');
+		if (!passage) return;
+
+		const links = passage.querySelectorAll('tw-link');
+		if (links.length !== 1) return;
+
+		btn.classList.add('enabled');
+	}
+
+	function hook() {
+		ensureSkipButton();
+		updateSkipState();
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', hook);
+	} else {
+		hook();
+	}
+
+	document.addEventListener('tw-passage-render', () => {
+		ensureSkipButton();
+		setTimeout(updateSkipState, 0);
+	});
+
+	const obs = new MutationObserver(() => {
+		ensureSkipButton();
+		updateSkipState();
+	});
+	obs.observe(document.body, { childList: true, subtree: true });
+
+})();
+
+
+
+</script><tw-tag name="Reusable" color="purple"></tw-tag><tw-tag name="Decisión" color="orange"></tw-tag><tw-tag name="Cambio-variable" color="blue"></tw-tag><tw-tag name="No_Skip" color="red"></tw-tag><tw-tag name="Funcionalidad" color="green"></tw-tag><tw-passagedata pid="1" name="Init" tags="No_Skip" position="225,150" size="100,100">{
 (set: $text to &quot;Todo comienza con un mago...&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Intro 001&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -139,67 +256,137 @@ window.AudioSys = {
 (set: $text to &quot;Dime, ¿puedes ayudarles a escapar?&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Sí&quot;, &quot;passage&quot;, &quot;SiEscapan&quot;),(dm: &quot;name&quot;, &quot;No&quot;, &quot;passage&quot;, &quot;NoEscapan&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="" position="175,275" size="100,100">{
-	(set: $i to 1)
-	(set: $showLinks to false)
-	|bloque&gt;[
-		|output&gt;[] 
-		&lt;br&gt;
-		|linksArea&gt;[]
-	]
-	
-	(live: 0.02s)[
-		(if: $i &lt;= (length of $text))[
-			(set: $partial to (substring: $text, 1, $i))
-			(set: $lastChar to (substring: $partial, $i, 1))
-			(set: $last2Chars to &quot;&quot;)
-			(if: $i &gt;= 2)[
-				(set: $last2Chars to (substring: $partial, $i - 1, 2))
-			]
-			
-			&lt;!-- Si termina en &lt; o &lt;/ no mostrar todavía --&gt;
-			(if: $lastChar is &quot;&lt;&quot; or $last2Chars is &quot;&lt;/&quot;)[
-				&lt;!-- No mostrar nada, esperar --&gt;
-			]
-			(else-if: $lastChar is &quot;&gt;&quot;)[
-				&lt;!-- Completó etiqueta, mostrar todo --&gt;
-				(replace: ?output)[(print: $partial)]
-			]
-			(else:)[
-				&lt;!-- Carácter normal, mostrar --&gt;
-				(replace: ?output)[(print: $partial)]
-			]
-			
-			(set: $i to $i + 1)
-		]
-		(else:)[
-			(replace: ?output)[(print: $text)]
-			(if: not $showLinks)[
-				(set: $showLinks to true)
-				(replace: ?linksArea)[
-					(transition: &quot;dissolve&quot;)[
-						(if: $links is not 0)[
-							(for: each _link, ...$links)[
-								(link: _link&#39;s name)[
-									(transition: &quot;dissolve&quot;)[
-										(goto: _link&#39;s passage)
-									]
-								]
-								&lt;br&gt;
-							]
-						]
-					]
+}</tw-passagedata><tw-passagedata pid="7" name="Typewriter" tags="Funcionalidad" position="150,275" size="100,100">{
+	(set: $uniqueId to (text: (random: 1, 999999)))
+	&lt;style&gt;
+		.tw-display ul, .tw-display ol {
+			list-style-position: inside;
+		}
+		.tw-display li:empty {
+			display: none;
+		}
+		.tw-display li {
+			opacity: 0;
+			transition: opacity 0.1s;
+		}
+		.tw-display li.tw-visible {
+			opacity: 1;
+		}
+	&lt;/style&gt;
+	&lt;div class=&quot;tw-container&quot; data-tw-id=&quot;(print: $uniqueId)&quot;&gt;
+		&lt;div class=&quot;tw-display&quot;&gt;&lt;/div&gt;
+		&lt;!-- Links de Harlowe que están invisibles --&gt;
+		&lt;div class=&quot;tw-links&quot; style=&quot;opacity: 0; pointer-events: none; transition: opacity 0.8s ease-in;&quot;&gt;
+			(if: $links is not 0)[
+				(for: each _link, ...$links)[
+					(link: _link&#39;s name)[(goto: _link&#39;s passage)]
+					&lt;br&gt;
 				]
 			]
-			(stop:)
-		]
-	]
-}</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="" position="300,275" size="100,100">{
-(set: $typewriterEnabled to true)
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div id=&quot;data-text-(print: $uniqueId)&quot; style=&quot;display:none;&quot;&gt;
+		(print: $text)
+	&lt;/div&gt;
+	&lt;script&gt;
+	(function() {
+		setTimeout(function() {
+			const root = document.querySelectorAll(&#39;.tw-container&#39;);
+			const container = root[root.length - 1];
+			if (!container) return;
+			const display = container.querySelector(&#39;.tw-display&#39;);
+			const linksDiv = container.querySelector(&#39;.tw-links&#39;);
+			const id = container.getAttribute(&#39;data-tw-id&#39;);
+			const dataText = document.getElementById(&#39;data-text-&#39; + id);
+			if (!dataText) return;
+			
+			setTimeout(function() {
+				const temp = document.createElement(&#39;div&#39;);
+				temp.innerHTML = dataText.innerHTML;
+				
+				function getTextNodes(n, arr = []) {
+					if (n.nodeType === 3) arr.push(n);
+					else for (const c of n.childNodes) getTextNodes(c, arr);
+					return arr;
+				}
+				
+				function cloneEmpty(n) {
+					if (n.nodeType === 3) return document.createTextNode(&#39;&#39;);
+					const el = n.cloneNode(false);
+					for (const c of n.childNodes) el.appendChild(cloneEmpty(c));
+					return el;
+				}
+				
+				for (const n of temp.childNodes) {
+					display.appendChild(cloneEmpty(n));
+				}
+				
+				const originals = getTextNodes(temp);
+				const displays  = getTextNodes(display);
+				
+				let ni = 0, ci = 0;
+				let currentLi = null;
+				
+				function type() {
+					while (ni &lt; originals.length &amp;&amp; originals[ni].textContent.length === 0) {
+						ni++;
+					}
+					
+					if (ni &gt;= originals.length) {
+						// Asegurar que el último &lt;li&gt; sea visible si lo hay
+						if (currentLi) currentLi.classList.add(&#39;tw-visible&#39;);
+						// Termina animación
+						setTimeout(function() {
+							linksDiv.style.opacity = &#39;1&#39;;
+							linksDiv.style.pointerEvents = &#39;auto&#39;;
+						}, 200);
+						return;
+					}
+					
+					const t = originals[ni].textContent;
+					const displayNode = displays[ni];
+					
+					// Detectar si estamos en un &lt;li&gt;
+					let liParent = displayNode.parentElement;
+					while (liParent &amp;&amp; liParent.tagName !== &#39;LI&#39; &amp;&amp; liParent !== display) {
+						liParent = liParent.parentElement;
+					}
+					
+					if (liParent &amp;&amp; liParent.tagName === &#39;LI&#39;) {
+						// Nuevo &lt;li&gt; - hacerlo visible
+						if (liParent !== currentLi) {
+							if (currentLi) currentLi.classList.add(&#39;tw-visible&#39;);
+							currentLi = liParent;
+							currentLi.classList.add(&#39;tw-visible&#39;);
+						}
+					}
+					
+					displayNode.textContent += t[ci++];
+					
+					if (ci &gt;= t.length) { 
+						ni++; 
+						ci = 0; 
+					}
+					
+					setTimeout(type, 20);
+				}
+				
+				type();
+				
+			}, 500);
+			
+		}, 100);
+	})();
+	&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="8" name="StoryInit" tags="Funcionalidad" position="300,275" size="100,100">{
 (set: $youWantToHelp to false)
 (set: $ceilingOut to false)
+(set: $skipAllowed to true)
 }
-</tw-passagedata><tw-passagedata pid="9" name="SiEscapan" tags="Cambio-variable" position="1100,75" size="100,100">{
+/*
+- youWantToHelp es para la reacción de Cubito en unos cuantos finales cuando se desvela que es el narrador, que varía según dijeras si quieres ayudar o no
+- ceilingOut es para definir si el techo se ha desplomado más de una vez o no y se usa en la rama de la puerta morada, en &quot;Ilumina Runas 001&quot;, para una pequeña variación de diálogo si se ha pasado por la parte de &quot;No Espejo&quot; y &quot;Calma&quot; previamente
+*/</tw-passagedata><tw-passagedata pid="9" name="SiEscapan" tags="Cambio-variable" position="1100,75" size="100,100">{
 (set: $text to &quot;Interesante, esperaré a ver el fruto de tus esfuerzos&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 007&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -213,8 +400,8 @@ window.AudioSys = {
 (set: $text to &quot;En cualquier caso, he de dejarte...\nSuerte, hagas lo que hagas&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Intro 008 - TITLE&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="12" name="Intro 008 - TITLE" tags="" position="1350,150" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="12" name="Intro 008 - TITLE" tags="No_Skip" position="1350,150" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -282,7 +469,8 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 007&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="19" name="PrePuertas 007" tags="" position="1600,525" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-La mascota se alza desde su cama, idéntica a la del mago solo que de menor tamaño-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:D!&lt;/span&gt;&quot;)
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;sparkle&#39;, &#39;audio/sparkle.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;\n&lt;i&gt;-La mascota se alza desde su cama, idéntica a la del mago solo que de menor tamaño-&lt;/i&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 008&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="20" name="PrePuertas 008" tags="" position="1600,400" size="100,100">{
@@ -302,11 +490,11 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 012&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="24" name="PrePuertas 012" tags="" position="1850,150" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Digamos que... no se cómo de fiable es mi interpretación de un pingüino...&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Digamos que... &lt;/span&gt;\n&lt;span style = &#39;color:#c27cff; font-size:0.7em;&#39;&gt;...no se cómo de fiable es mi interpretación de un pingüino...&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 013&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="25" name="PrePuertas 013" tags="" position="1850,275" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;... :(&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ╥_╥ʔ...&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 014&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="26" name="PrePuertas 014" tags="" position="1850,400" size="100,100">{
@@ -318,7 +506,7 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 016&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="28" name="PrePuertas 016" tags="" position="1850,650" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;:)!&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ•ᴥ•ʔ&lt;span style = &#39;font-size:1.7em;&#39;&gt;♡&lt;/span&gt;&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 017&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="29" name="PrePuertas 017" tags="" position="1975,650" size="100,100">{
@@ -330,7 +518,7 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;*Hacerse notar*&quot;, &quot;passage&quot;, &quot;PrePuertas 019&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="31" name="PrePuertas 019" tags="Decisión" position="2100,525" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¿¿¿Huh???&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff; font-size:1.5em&#39;&gt;¿¿¿Huh???&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Hacerse notar de nuevo&quot;, &quot;passage&quot;, &quot;PrePuertas 020a&quot;),(dm: &quot;name&quot;, &quot;Hacerse notar MÁS&quot;, &quot;passage&quot;, &quot;PrePuertas 020b&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="32" name="PrePuertas 020a" tags="" position="2100,400" size="100,100">{
@@ -338,15 +526,15 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021a&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="33" name="PrePuertas 021a" tags="" position="2150,275" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;¿...?&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;(°_°)...?&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021a 01&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="34" name="PrePuertas 020b" tags="" position="2225,525" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-Una intensa luz dorada ciega tanto a mago como a pingüino momentáneamente-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Ugh...&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:C&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-Una intensa luz dorada ciega tanto a mago como a pingüino momentáneamente-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Ugh...&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;⊙﹏⊙&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021b&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="35" name="PrePuertas 021b" tags="" position="2350,525" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-Quizás era innecesario el hacerse notar &lt;b&gt;&lt;u&gt;tanto&lt;/u&gt;&lt;/b&gt;-&lt;/i&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-Quizás era innecesario el hacerse notar &lt;span style = &#39;font-size:1.5em&#39;&gt;&lt;b&gt;&lt;u&gt;tanto&lt;/u&gt;&lt;/b&gt;&lt;/span&gt;-&lt;/i&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021b 01&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="36" name="PrePuertas 021b 01" tags="" position="2475,525" size="100,100">{
@@ -354,7 +542,7 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 021b 02&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="37" name="PrePuertas 021b 02" tags="" position="2600,450" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Además, pobre Cubito!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:C&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Además, pobre Cubito!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;&gt;_&lt;&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;Deletrear &#39;&lt;i&gt;No era mi intención&lt;/i&gt;&#39; moviéndote lo suficientemente rápido&quot;, &quot;passage&quot;, &quot;PrePuertas 021b 03&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="38" name="PrePuertas 021a 01" tags="" position="2275,275" size="100,100">{
@@ -362,7 +550,7 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;Cambiar de color varias veces como si fuera una fiesta&quot;, &quot;passage&quot;, &quot;PrePuertas 021a 02&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="39" name="PrePuertas 021a 02" tags="" position="2400,275" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Es genial!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;:O&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Es genial!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(°O°)&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas DECISIÓN&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="40" name="PrePuertas 021b 03" tags="" position="2525,325" size="100,100">{
@@ -370,7 +558,7 @@ window.setTimeout(function () {
 (set: $links to (a:(dm: &quot;name&quot;, &quot;Moverse hacia arriba y hacia abajo (asentir)&quot;, &quot;passage&quot;, &quot;PrePuertas DECISIÓN&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="41" name="PrePuertas DECISIÓN" tags="Decisión" position="2525,200" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;En fin, ¿te gustaría venir con nosotros? Estamos buscando una forma de escapar de aquí. Llevamos atrapados...\n\n&lt;b&gt;&lt;i&gt;...mucho tiempo&lt;/i&gt;&lt;/b&gt;&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;En fin, ¿te gustaría venir con nosotros? Estamos buscando una forma de escapar de aquí. Llevamos atrapados...\n\n&lt;span style = &#39;font-size:1.5em&#39;&gt;&lt;b&gt;&lt;i&gt;...mucho tiempo&lt;/i&gt;&lt;/b&gt;&lt;/span&gt;&lt;/span&gt;&quot;)
 (set: $links to 0)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Si&quot;, &quot;passage&quot;, &quot;A las Puertas 001&quot;),(dm: &quot;name&quot;, &quot;No&quot;, &quot;passage&quot;, &quot;Final escapa solo 001&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -421,8 +609,8 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;bgmusic&#39;) {
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;En fin, puedes irte, esto no ha servido para nada&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Final escapa solo 009&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="50" name="Final escapa solo 009" tags="" position="2700,675" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="50" name="Final escapa solo 009" tags="No_Skip" position="2700,675" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -477,7 +665,7 @@ window.setTimeout(function () {
      (dm: &quot;name&quot;,&quot;&gt;&gt;&quot;,&quot;passage&quot;,&quot;A las Puertas 002&quot;)
 ))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="52" name="FIN DEL JUEGO" tags="Reusable" position="2575,675" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="52" name="FIN DEL JUEGO" tags="Reusable No_Skip" position="2575,675" size="100,100">{
 (print: &quot;&lt;script&gt;AudioSys.stopAll()&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;span style=&#39;color:#d9d9d9&#39;&gt;&lt;b&gt;Fin Del Juego&lt;/b&gt;\n===========\nTu historia llega a su fin aquí.\nGracias por jugar&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;Reiniciar Juego&quot;,&quot;passage&quot;, &quot;Init&quot;)))
@@ -493,7 +681,7 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;A las Puertas 004&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="55" name="A las Puertas 004" tags="" position="2900,75" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-El pingüino asiente-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;!&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-El pingüino asiente-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ•ᴥ•ʔو&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;A las Puertas 005&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="56" name="A las Puertas 005" tags="" position="3025,75" size="100,100">{
@@ -505,6 +693,7 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;La naranja&quot;, &quot;passage&quot;, &quot;Puerta Naranja&quot;),(dm: &quot;name&quot;, &quot;La morada&quot;, &quot;passage&quot;, &quot;Puerta Morada&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="58" name="Puerta Morada" tags="" position="3200,200" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;creak&#39;, &#39;audio/door_creak.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Te posicionas delante de la puerta morada, y el mago procede a empujarla, haciendo que se abra con un chirrido metálico-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Espejo 001&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -555,6 +744,7 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;bgmusic&#39;) {
 }
 &lt;/script&gt;&quot;)
 }</tw-passagedata><tw-passagedata pid="69" name="Libertad SOLO 001" tags="" position="3000,1350" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;mystic&#39;, &#39;audio/ana-mystical-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-El portal se cierra tas tu veloz escape...\n...dejando al mago y a Cubito &lt;b&gt;atrapados&lt;/b&gt;-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Libertad SOLO 002&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -612,8 +802,8 @@ AudioSys.playBgMusic(&#39;sadmusic&#39;, &#39;audio/ana-sad.mp3&#39;, true, 0.6)
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;...¿Valió la pena?&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Libertad SOLO 012&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="80" name="Libertad SOLO 012" tags="" position="2750,975" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="80" name="Libertad SOLO 012" tags="No_Skip" position="2750,975" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -662,7 +852,7 @@ window.setTimeout(function () {
 }, 1100);
 &lt;/script&gt;
 }</tw-passagedata><tw-passagedata pid="81" name="Morada Cuarto 002" tags="" position="3200,1450" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-mystical-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;mystic&#39;, &#39;audio/ana-mystical-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Los tres os adentráis en la nueva sala, un salón circular, con paredes cubiertas de runas brillantes y un reloj de arena gigante en el centro. Además, en una esquina se encuentra una puerta de madera antigua con un candado-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Enigma 001&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -692,7 +882,8 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;bgmusic&#39;) {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;No espejo 007&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="87" name="No espejo 007" tags="Cambio-variable" position="4025,825" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-La pared se agrieta y toda la habitación comienza a derrumbarse frente a vosotros-&lt;/i&gt;\n&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite;&#39;&gt;&lt;b&gt;¡CRACK!&lt;/b&gt;&lt;/span&gt;&quot;)
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;break&#39;, &#39;audio/heavy_break.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite; font-size:1.5em&#39;&gt;&lt;b&gt;¡CRACK!&lt;/b&gt;&lt;/span&gt;\n&lt;i&gt;-La pared se agrieta y toda la habitación comienza a derrumbarse frente a vosotros-&lt;/i&gt;&quot;)
 (set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;No espejo 008&#39;)))
 (display: &#39;Typewriter&#39;)
 (set: $ceilingOut to true)
@@ -735,6 +926,7 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;angrymusic&#39;
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Calma 004&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="93" name="Calma 004" tags="" position="3575,1075" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;magic&#39;, &#39;audio/magic_whoosh.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Usando palabras que no logras entender, los ojos del mago se tornan morados, y consigue invocar una barrera mágica que os protege del derrumbe-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Calma 005&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -756,10 +948,12 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;bgmusic&#39;) {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Calma 008&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="97" name="Calma 008" tags="" position="3275,1325" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;sparkle&#39;, &#39;audio/sparkle.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;\n&lt;i&gt;-Cubito salta emocionado, siguiendo al mago-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Morada Cuarto 002&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="98" name="Tu solucion 001" tags="" position="4200,1075" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;break&#39;, &#39;audio/heavy_break.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Intentas buscar otra salida, pero no hay tiempo...\n&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite;&#39;&gt;&lt;b&gt;...la habitación se desploma por completo&lt;/b&gt;&lt;/span&gt;-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 002&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -813,7 +1007,7 @@ AudioSys.playBgMusic(&#39;sadmusic&#39;, &#39;audio/ana-sad.mp3&#39;, true, 0.6)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 009&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="106" name="Tu solucion 009" tags="" position="3875,1375" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-El mago se dirige a ti, susurrando-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Oye... luz\nSea lo que seas..., quien seas...\ngracias por estar aquí\nAunque solo fuera un rato\nAunque solo fuera...\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;...un sueño.&lt;/span&gt;&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-El mago se dirige a ti, susurrando-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Oye... luz\nSea lo que seas..., quien seas...\ngracias por estar aquí\nAunque solo fuera un rato\nAunque solo fuera...\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite; font-size:0.7em;&#39;&gt;...un instante.&lt;/span&gt;&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 010&quot;)))
 (display: &quot;Typewriter&quot;)
 &lt;style&gt;
@@ -847,8 +1041,8 @@ AudioSys.playBgMusic(&#39;sadmusic&#39;, &#39;audio/ana-sad.mp3&#39;, true, 0.6)
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Juntos... hasta el último segundo&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Final luchando hasta el final 005&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="113" name="Final luchando hasta el final 005" tags="" position="3625,2000" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="113" name="Final luchando hasta el final 005" tags="No_Skip" position="3625,2000" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -926,6 +1120,7 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;sadmusic&#39;) 
 }
 &lt;/script&gt;&quot;)
 }</tw-passagedata><tw-passagedata pid="119" name="Ilumina Runas 001" tags="" position="2900,1725" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;break&#39;, &#39;audio/heavy_break.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (if: $ceilingOut is false)[
 	(set: $text to &quot;&lt;i&gt;-Te concentras en el espejo del candado, iluminando las runas. El candado se abre con un clic, pero el techo empieza a agrietarse-&lt;/i&gt;&quot;)
 ]
@@ -963,7 +1158,8 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;sadmusic&#39;) 
 AudioSys.playBgMusic(&#39;bgmusic&#39;, &#39;audio/ana-background.mp3&#39;, true, 0.6);}, 1000);
 &lt;/script&gt;&quot;)
 }</tw-passagedata><tw-passagedata pid="125" name="Escape en equipo 003" tags="" position="2525,1525" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-El mago, incrédulo, os mira a los dos-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Lo, lo logramos... ¡Estamos libres! ¡Y juntos! ¡Tú nos salvaste!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;&quot;)
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;sparkle&#39;, &#39;audio/sparkle.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;\n&lt;i&gt;-El mago, incrédulo, os mira a los dos-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Lo, lo logramos... ¡Estamos libres! ¡Y juntos! ¡Tú nos salvaste!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 004&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="126" name="Escape en equipo 004" tags="" position="2400,1525" size="100,100">{
@@ -987,8 +1183,8 @@ AudioSys.playBgMusic(&#39;bgmusic&#39;, &#39;audio/ana-background.mp3&#39;, true
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Gracias por no apagar la luz&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Escape en equipo 008&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="130" name="Escape en equipo 008" tags="" position="1900,1525" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="130" name="Escape en equipo 008" tags="No_Skip" position="1900,1525" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -1041,15 +1237,24 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 002&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="132" name="Solo tú y el mago 002" tags="" position="2650,1650" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;magic&#39;, &#39;audio/magic_whoosh.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-La voz del mago se quiebra, por mucho que intente evitar los escombros y proteger a Cubito de ellos, esto es demasiado, y no es capaz de verlo todo-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 003&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="133" name="Solo tú y el mago 003" tags="" position="2525,1650" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-Cubito de Hielo abre levemente los ojos, y con las pocas fuerzas que le quedan le señala al mago la puerta, pidiéndole que se vaya-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(╥_╥)&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-Cubito de Hielo abre levemente los ojos, y con las pocas fuerzas que le quedan le señala al mago la puerta, pidiéndole que se vaya-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF; display:inline-block; animation:fadePulse 2s ease-in-out infinite&#39;&gt;(╥_╥)&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 004&quot;)))
 (display: &quot;Typewriter&quot;)
+&lt;style&gt;
+@keyframes fadePulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.15; }
+    100% { opacity: 1; }
+}
+&lt;/style&gt;
 }</tw-passagedata><tw-passagedata pid="134" name="Solo tú y el mago 004" tags="" position="2400,1650" size="100,100">{
-(set: $text to &quot;&lt;i&gt;-Los escombros cubren a Cubito completamente, y se oye un grito de desesperación proveniente del mago-&lt;/i&gt;\n&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite; color:#c27cff&#39;&gt;¡¡¡¡NOOOOO!!!!&lt;/span&gt;&quot;)
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;break&#39;, &#39;audio/heavy_break.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-Los escombros cubren a Cubito completamente, y se oye un grito de desesperación proveniente del mago-&lt;/i&gt;\n&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite; font-size:1.5em; color:#c27cff&#39;&gt;¡¡¡¡NOOOOO!!!!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 005&quot;)))
 (display: &quot;Typewriter&quot;)
 &lt;style&gt;
@@ -1070,7 +1275,8 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 007&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="137" name="Solo tú y el mago 007" tags="" position="2025,1650" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;...\n...\n...\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;&lt;i&gt;¿...por qué...?&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&quot;)
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;eerie&#39;, &#39;audio/eerie_slow.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;...\n...\n...\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite; font-size:0.7em;&#39;&gt;&lt;i&gt;¿...por qué...?&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&quot;)
 (set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;Solo tú y el mago 008&#39;)))
 (display: &#39;Typewriter&#39;)
 &lt;style&gt;
@@ -1082,7 +1288,7 @@ window.setTimeout(function () {
 &lt;/style&gt;
 }
 </tw-passagedata><tw-passagedata pid="138" name="Solo tú y el mago 008" tags="" position="1900,1650" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite; color:#c27cff&#39;&gt;&lt;b&gt;¿¡POR QUÉ!?&lt;/b&gt;&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;display:inline-block; animation:shake 0.15s infinite; font-size:1.5em; color:#c27cff&#39;&gt;&lt;b&gt;¿¡POR QUÉ!?&lt;/b&gt;&lt;/span&gt;&quot;)
 (set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;Solo tú y el mago 009&#39;)))
 (display: &#39;Typewriter&#39;)
 &lt;style&gt;
@@ -1096,10 +1302,11 @@ window.setTimeout(function () {
 &lt;/style&gt;
 }
 </tw-passagedata><tw-passagedata pid="139" name="Solo tú y el mago 009" tags="" position="1775,1650" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡TÚ! ¡Tú lo dejaste ahí! ¡Tú pudiste salvarlo! ¡Y ahora está...!&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;display:inline-block; font-size:1.5em; color:#c27cff&#39;&gt;&lt;b&gt;¡TÚ!&lt;/b&gt;&lt;/span&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Tú lo dejaste ahí! ¡Tú pudiste salvarlo! ¡Y ahora está...!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 010&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="140" name="Solo tú y el mago 011" tags="" position="1650,1525" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.stop(&#39;eerie&#39;)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-El mago no dice nada más, ojos perdidos en algún lugar al que no puedes llegar-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 012&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -1107,7 +1314,7 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;...&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Solo tú y el mago 011&quot;)))
 (display: &quot;Typewriter&quot;)
-</tw-passagedata><tw-passagedata pid="142" name="Solo tú y el mago 012" tags="" position="1650,1400" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="142" name="Solo tú y el mago 012" tags="" position="1650,1400" size="100,100">{
 (if: $youWantToHelp is false)[
 	(set: $text to &quot;...al menos cumpliste lo que prometiste&quot;)
 ]
@@ -1121,15 +1328,15 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Solo tú y el mago 014&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="144" name="Solo tú y el mago 014" tags="" position="1650,1150" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Su alma y yo nos quedamos aquí&lt;/span&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Su alma y yo nos quedaremos aquí&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Solo tú y el mago 015&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="145" name="Solo tú y el mago 015" tags="" position="1650,1025" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Y tú...\n...tú seguirás siendo esa sombra que pudo habernos salvado&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Solo tú y el mago 016&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="146" name="Solo tú y el mago 016" tags="" position="1650,900" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="146" name="Solo tú y el mago 016" tags="No_Skip" position="1650,900" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -1185,7 +1392,8 @@ window.setTimeout(function () {
 AudioSys.playBgMusic(&#39;bgmusic&#39;, &#39;audio/ana-background.mp3&#39;, true, 0.6);}, 1000);
 &lt;/script&gt;&quot;)
 }</tw-passagedata><tw-passagedata pid="148" name="Refleja Reloj 003" tags="" position="2575,1850" size="100,100">{
-(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No...no me lo puedo creer, ¡estamos fuera!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;&quot;)
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;sparkle&#39;, &#39;audio/sparkle.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;No...no me lo puedo creer, ¡estamos fuera!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 004&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="149" name="Refleja Reloj 004" tags="" position="2450,1850" size="100,100">{
@@ -1209,8 +1417,8 @@ AudioSys.playBgMusic(&#39;bgmusic&#39;, &#39;audio/ana-background.mp3&#39;, true
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Gracias por guiarnos con tu luz&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Refleja Reloj 008&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="153" name="Refleja Reloj 008" tags="" position="1950,1850" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="153" name="Refleja Reloj 008" tags="No_Skip" position="1950,1850" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
@@ -1263,6 +1471,7 @@ window.setTimeout(function () {
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 003&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="155" name="Ignorarlo Todo 003" tags="" position="2750,2100" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;magic&#39;, &#39;audio/magic_whoosh.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Intenta un hechizo tras otro, agotándo completamente sus energías, pero sus manos cada vez tiemblan más, y nada está mejorando-&lt;/i&gt;\n&lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite; color:#c27cff&#39;&gt;&lt;i&gt;...por favor...&lt;/i&gt;&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 004&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -1306,8 +1515,8 @@ window.setTimeout(function () {
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Y tú...\n...tú solo fuiste la luz que nos vio morir&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ignorarlo Todo 011&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="163" name="Ignorarlo Todo 011" tags="" position="1750,2100" size="100,100">{
-(print: &quot;&lt;script&gt;AudioSys.play(&#39;portal&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+}</tw-passagedata><tw-passagedata pid="163" name="Ignorarlo Todo 011" tags="No_Skip" position="1750,2100" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
     width: 100%;
