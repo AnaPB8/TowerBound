@@ -9,7 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play TowerBound.</tw-noscript></noscript></tw-story>
-<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
+<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.3" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
     display: none;
 }
 
@@ -1626,6 +1626,8 @@ window.setTimeout(function () {
 (set: $text to &quot;Todo comienza con un mago...&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Intro 001&quot;)))
 (display: &quot;Typewriter&quot;)
+(set: $youWantToHelp to false)
+(set: $ceilingOut to false)
 }</tw-passagedata><tw-passagedata pid="167" name="Secreto 002" tags="" position="600,525" size="100,100">{
 (set: $text to &quot;Otras veces hemos salido todos juntos...&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Secreto 003&quot;)))
@@ -1766,7 +1768,7 @@ AudioSys.playBgMusic(&#39;bg_hopeful_piano&#39;, &#39;audio/hopeful_piano.mp3&#3
     text-align: center;
 &quot;&gt;
     &lt;img id=&quot;fadeImg&quot;
-         src=&quot;img/tu_y_mago.png&quot;
+         src=&quot;img/secreto.png&quot;
          style=&quot;
             max-width: 45vw;
             height: auto;
