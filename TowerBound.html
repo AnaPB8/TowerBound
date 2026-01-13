@@ -9,7 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play TowerBound.</tw-noscript></noscript></tw-story>
-<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.3" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
+<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
     display: none;
 }
 
@@ -39,6 +39,154 @@
 #skip-button.enabled:hover {
 	background: rgba(95,168,255,0.15);
 }
+
+
+/* ESCENA DE TÍTULO */
+/* Wrapper general */
+#titleWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10vh;
+}
+
+/* Fila principal: personajes y logo */
+#titleRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(24px, 6vw, 120px);
+}
+
+/* Logo */
+#titleScene img,
+.title-center img {
+    max-width: min(70vw, 700px);
+    height: auto;
+}
+
+/* Flecha */
+#continueArrow {
+    margin-top: 30px;
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
+    pointer-events: none;
+}
+
+/* PERSONAJES */
+.side-char {
+    position: relative;
+    /* tamaño del contenedor cambiante */
+    width: clamp(52px, 8vw, 90px);
+    height: clamp(52px, 8vw, 90px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 1.1s ease;
+}
+
+/* Aura adaptativa */
+.side-char .aura {
+    position: absolute;
+    inset: clamp(-12px, -2vw, -20px);
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(180, 80, 255, 0.25) 0%,
+        rgba(180, 80, 255, 0.12) 40%,
+        rgba(180, 80, 255, 0.0) 70%
+    );
+
+    filter: blur(clamp(4px, 1vw, 6px));
+    z-index: 1;
+}
+
+/* Sprite */
+.side-char img {
+    width: clamp(32px, 4vw, 52px);
+    height: auto;
+    image-rendering: pixelated;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+/* Aparición suave */
+.side-char.fade-in {
+    opacity: 1;
+}
+
+/* Delay */
+.side-char.fade-delay {
+    transition-delay: 0.3s;
+}
+
+/* ANIMACIÓN DE SALTO */
+@keyframes hop {
+    0%   { transform: translateY(0); }
+    30%  { transform: translateY(-20px); }
+    60%  { transform: translateY(0); }
+}
+
+.side-char img.hop {
+    animation-name: hop;
+    animation-duration: 0.35s;
+    animation-timing-function: ease-out;
+}
+
+/* Salto más suave en pantallas pequeñas */
+@media (max-width: 600px) {
+    @keyframes hop {
+        0%   { transform: translateY(0); }
+        30%  { transform: translateY(-6px); }
+        60%  { transform: translateY(0); }
+    }
+}
+
+/* Pantallas muy pequeñas*/
+@media (max-width: 360px) {
+    .side-char {
+        opacity: 0.35;
+    }
+}
+
+/* CANDADOS */
+/* CONTENEDOR GENERAL */
+#lockPuzzle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+#lockBase {
+    width: clamp(180px, 40vw, 260px);
+}
+
+#symbolRow {
+    display: flex;
+    gap: clamp(12px, 4vw, 28px);
+}
+
+#symbolGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(12px, 4vw, 28px);
+    justify-items: center;
+}
+
+.symbol {
+    width: clamp(56px, 10vw, 80px);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.symbol:hover {
+    transform: scale(1.08);
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// --- SISTEMA DE AUDIO --- 
 
 window.AudioSys = { 
@@ -415,31 +563,33 @@ window.AudioSys = {
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="11" name="Intro 008 - TITLE" tags="No_Skip" position="1350,150" size="100,100">{
 (print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
-&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
-&lt;div style=&quot;
-    width: 100%;
-    text-align: center;
-&quot;&gt;
-    &lt;img id=&quot;fadeImg&quot;
-         src=&quot;img/logo_DEF.png&quot;
-         style=&quot;
-            max-width: 45vw;
-            height: auto;
-         &quot;&gt;
-&lt;/div&gt;
 
-&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
-&lt;div id=&quot;continueArrow&quot;
-     style=&quot;
-        margin-top: 20px;
-        text-align: center;
-        opacity: 0;
-        transition: opacity 0.8s ease-in;
-        pointer-events: none;
-     &quot;&gt;
-    (link: &quot;&amp;#187;&quot;)[ (goto: &quot;PrePuertas 001&quot;) ]
-&lt;/div&gt;
+&lt;div id=&quot;titleWrapper&quot;&gt;
 
+    &lt;!-- Fila --&gt;
+    &lt;div id=&quot;titleRow&quot;&gt;
+
+        &lt;div class=&quot;side-char fade-delay&quot;&gt;
+            &lt;div class=&quot;aura&quot;&gt;&lt;/div&gt;
+            &lt;img src=&quot;img/mago-pixel.png&quot; id=&quot;magoSprite&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;titleScene&quot;&gt;
+            &lt;img src=&quot;img/logo_DEF.png&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;side-char fade-delay&quot;&gt;
+            &lt;div class=&quot;aura&quot;&gt;&lt;/div&gt;
+            &lt;img src=&quot;img/pinguino-pixel.png&quot; id=&quot;pinguinoSprite&quot;&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+
+    &lt;div id=&quot;continueArrow&quot;&gt;
+        (link: &quot;&amp;#187;&quot;)[ (goto: &quot;PrePuertas 001&quot;) ]
+    &lt;/div&gt;
+
+&lt;/div&gt;
 &lt;style&gt;
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -457,7 +607,46 @@ window.setTimeout(function () {
     }
 }, 1100);
 &lt;/script&gt;
-}</tw-passagedata><tw-passagedata pid="12" name="PrePuertas 001" tags="" position="1350,275" size="100,100">{
+
+&lt;script&gt;
+function enableHop(id, soundName, soundFile, volume = 0.6) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener(&quot;click&quot;, () =&gt; {
+        // Sonido
+        AudioSys.play(soundName, soundFile, false, volume);
+        // Salto
+        el.classList.remove(&quot;hop&quot;);
+        void el.offsetWidth;
+        el.classList.add(&quot;hop&quot;);
+    });
+}
+
+// Activar personajes
+enableHop(
+    &quot;magoSprite&quot;,
+    &quot;magoClick&quot;,
+    &quot;audio/magic_wand.mp3&quot;,
+    0.6
+);
+enableHop(
+    &quot;pinguinoSprite&quot;,
+    &quot;pinguinoClick&quot;,
+    &quot;audio/bird.mp3&quot;,
+    0.6
+);
+&lt;/script&gt;
+
+&lt;script&gt;
+/* Disparar fade-in una sola vez para los personajes */
+setTimeout(() =&gt; {
+    document
+        .querySelectorAll(&quot;.side-char&quot;)
+        .forEach(el =&gt; el.classList.add(&quot;fade-in&quot;));
+}, 50);
+&lt;/script&gt;
+}
+</tw-passagedata><tw-passagedata pid="12" name="PrePuertas 001" tags="" position="1350,275" size="100,100">{
 (set: $text to &quot;...\n...\n...\n...\n...\n...&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 002&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -707,18 +896,18 @@ window.setTimeout(function () {
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="56" name="A las Puertas 006" tags="Decisión" position="3150,75" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;En fin, como eres nuevo por aquí, te toca elegir\n¿Que puerta prefieres?&lt;/span&gt;&quot;)
-(set: $links to (a: (dm: &quot;name&quot;, &quot;La naranja&quot;, &quot;passage&quot;, &quot;Puerta Naranja&quot;),(dm: &quot;name&quot;, &quot;La morada&quot;, &quot;passage&quot;, &quot;Puerta Morada&quot;)))
+(set: $links to (a: (dm: &quot;name&quot;, &quot;La naranja&quot;, &quot;passage&quot;, &quot;Puerta Naranja Prepuzzle 001&quot;),(dm: &quot;name&quot;, &quot;La morada&quot;, &quot;passage&quot;, &quot;Puerta Morada Prepuzzle 001&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="57" name="Puerta Morada" tags="" position="3200,200" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="57" name="Puerta Morada" tags="" position="3450,375" size="100,100">{
 (print: &quot;&lt;script&gt;AudioSys.play(&#39;creak&#39;, &#39;audio/door_creak.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Te posicionas delante de la puerta morada, y el mago procede a empujarla, haciendo que se abra con un chirrido metálico-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Espejo 001&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="58" name="Espejo 001" tags="" position="3200,325" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="58" name="Espejo 001" tags="" position="3450,500" size="100,100">{
 (set: $text to &quot;&lt;i&gt;-El mago entra, entusiasmado por la posibilidad de escapar de una vez por todas, seguido de Cubito-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Espejo 002&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="59" name="Espejo 002" tags="" position="3200,450" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="59" name="Espejo 002" tags="" position="3325,575" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Un espejo! ¡Y no creo que sea un espejo normal, Cubito! Los espejos en torres como esta siempre esconden algo. ¿Un portal? ¿Un acertijo? ¡O tal vez solo reflejan lo que queremos ver!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Espejo 003&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -1622,7 +1811,7 @@ window.setTimeout(function () {
 (set: $text to &quot;Has escapado por tu cuenta alguna vez...&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Secreto 002&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="166" name="Init 002" tags="" position="225,225" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="166" name="Init 002" tags="No_Skip" position="225,225" size="100,100">{
 (set: $text to &quot;Todo comienza con un mago...&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;,&quot;passage&quot;, &quot;Intro 001&quot;)))
 (display: &quot;Typewriter&quot;)
@@ -1791,6 +1980,239 @@ AudioSys.playBgMusic(&#39;bg_hopeful_piano&#39;, &#39;audio/hopeful_piano.mp3&#3
 }</tw-passagedata><tw-passagedata pid="198" name="Secreto 032" tags="" position="100,1525" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Gracias&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Secreto 033&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="199" name="Puerta Morada Prepuzzle 001" tags="" position="3175,200" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Genial! Lo único, necesitamos abrir el candado primero...&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Puerta Morada Prepuzzle 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="200" name="Puerta Morada Prepuzzle 002" tags="" position="3300,200" size="100,100">{
+(set: $text to &quot;Te acercas al candado de la puerta morada, listo para ayudar, mientras el mago te explica que para abrirlo tenéis que encontrar la secuencia correcta de símbolos...\n...prepárate para resolver el enigma&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Puerta Morada Puzzle&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="201" name="Puerta Morada Puzzle" tags="No_Skip" position="3425,250" size="100,100">{
+&lt;div id=&quot;lockPuzzle&quot;&gt;
+
+    &lt;img id=&quot;lockBase&quot;
+         src=&quot;img/candado/candado_base_1.png&quot;
+         alt=&quot;Candado&quot;&gt;
+
+    &lt;div id=&quot;symbolGrid&quot;&gt;&lt;/div&gt;
+
+    &lt;!-- el link --&gt;
+    &lt;span id=&quot;doorLink&quot; style=&quot;display:none;&quot;&gt;
+        (link-goto: &quot;&gt;&gt;&quot;, &quot;Puerta Morada&quot;)
+    &lt;/span&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+/* Inicial */
+const DOOR_COLOR = &quot;morada&quot;;
+
+/* Ids únicos para no tener problemas por duplicados */
+const SYMBOL_POOL = [
+    { id: 0, type: &quot;estrella&quot; },
+    { id: 1, type: &quot;estrella&quot; },
+    { id: 2, type: &quot;luna&quot; },
+    { id: 3, type: &quot;luna&quot; },
+    { id: 4, type: &quot;reloj&quot; },
+    { id: 5, type: &quot;reloj&quot; }
+];
+
+/* Utils (randomizar) */
+function shuffle(arr) {
+    return [...arr].sort(() =&gt; Math.random() - 0.5);
+}
+
+/* Orden correcto (por ID) */
+const correctOrder = shuffle(SYMBOL_POOL.map(s =&gt; s.id));
+
+/* Estado */
+let progress = 0;
+let lockedIds = [];
+let isResetting = false;
+
+/* Dom */
+const grid = document.getElementById(&quot;symbolGrid&quot;);
+const lockBase = document.getElementById(&quot;lockBase&quot;);
+
+/* Mezclar posiciones visuales para variar */
+const visualOrder = shuffle(SYMBOL_POOL);
+
+/* Crear símbolos */
+visualOrder.forEach(sym =&gt; {
+    const img = document.createElement(&quot;img&quot;);
+    img.className = &quot;symbol&quot;;
+    img.dataset.id = sym.id;
+    img.dataset.type = sym.type;
+    img.src = `img/candado/${sym.type}_off.png`;
+
+    img.addEventListener(&quot;click&quot;, () =&gt; handleClick(img, sym));
+
+    grid.appendChild(img);
+});
+
+/* Lógica */
+function handleClick(el, sym) {
+    if (isResetting) return;
+    if (lockedIds.includes(sym.id)) return;
+
+    if (sym.id === correctOrder[progress]) {
+        el.src = `img/candado/${sym.type}_${DOOR_COLOR}.png`;
+        lockedIds.push(sym.id);
+        progress++;
+
+        if (progress === correctOrder.length) {
+            unlockDoor();
+        }
+    } else {
+        el.src = `img/candado/${sym.type}_mal.png`;
+        resetPuzzle();
+    }
+}
+
+function resetPuzzle() {
+    isResetting = true;
+    progress = 0;
+    lockedIds = [];
+
+    setTimeout(() =&gt; {
+        document.querySelectorAll(&quot;.symbol&quot;).forEach(el =&gt; {
+            el.src = `img/candado/${el.dataset.type}_off.png`;
+        });
+        isResetting = false;
+    }, 600);
+}
+
+function unlockDoor() {
+    lockBase.src = &quot;img/candado/candado_base.png&quot;;
+    AudioSys.play(&quot;victory&quot;, &quot;audio/victory.mp3&quot;, false, 0.8);
+
+    setTimeout(() =&gt; {
+        const link = document.querySelector(&quot;#doorLink tw-link&quot;);
+        if (link) link.click();
+    }, 3000);
+}
+&lt;/script&gt;
+}
+</tw-passagedata><tw-passagedata pid="202" name="Puerta Naranja Prepuzzle 001" tags="" position="3275,25" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Genial! Lo único, necesitamos abrir el candado primero...&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Puerta Naranja Prepuzzle 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="203" name="Puerta Naranja Prepuzzle 002" tags="" position="3400,25" size="100,100">{
+(set: $text to &quot;Te acercas al candado de la puerta naranja, listo para ayudar, mientras el mago te explica que para abrirlo tenéis que encontrar la secuencia correcta de símbolos...\n...prepárate para resolver el enigma&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Puerta Naranja Puzzle&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="204" name="Puerta Naranja Puzzle" tags="No_Skip" position="3525,25" size="100,100">{
+&lt;div id=&quot;lockPuzzle&quot;&gt;
+
+    &lt;img id=&quot;lockBase&quot;
+         src=&quot;img/candado/candado_base_1.png&quot;
+         alt=&quot;Candado&quot;&gt;
+
+    &lt;div id=&quot;symbolGrid&quot;&gt;&lt;/div&gt;
+
+    &lt;!-- el link --&gt;
+    &lt;span id=&quot;doorLink&quot; style=&quot;display:none;&quot;&gt;
+        (link-goto: &quot;&gt;&gt;&quot;, &quot;Puerta Naranja&quot;)
+    &lt;/span&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+/* Inicial */
+const DOOR_COLOR = &quot;naranja&quot;;
+
+/* Ids únicos para no tener problemas por duplicados */
+const SYMBOL_POOL = [
+    { id: 0, type: &quot;estrella&quot; },
+    { id: 1, type: &quot;estrella&quot; },
+    { id: 2, type: &quot;luna&quot; },
+    { id: 3, type: &quot;luna&quot; },
+    { id: 4, type: &quot;reloj&quot; },
+    { id: 5, type: &quot;reloj&quot; }
+];
+
+/* Utils (randomizar) */
+function shuffle(arr) {
+    return [...arr].sort(() =&gt; Math.random() - 0.5);
+}
+
+/* Orden correcto (por ID) */
+const correctOrder = shuffle(SYMBOL_POOL.map(s =&gt; s.id));
+
+/* Estado */
+let progress = 0;
+let lockedIds = [];
+let isResetting = false;
+
+/* Dom */
+const grid = document.getElementById(&quot;symbolGrid&quot;);
+const lockBase = document.getElementById(&quot;lockBase&quot;);
+
+/* Mezclar posiciones visuales para variar */
+const visualOrder = shuffle(SYMBOL_POOL);
+
+/* Crear símbolos */
+visualOrder.forEach(sym =&gt; {
+    const img = document.createElement(&quot;img&quot;);
+    img.className = &quot;symbol&quot;;
+    img.dataset.id = sym.id;
+    img.dataset.type = sym.type;
+    img.src = `img/candado/${sym.type}_off.png`;
+
+    img.addEventListener(&quot;click&quot;, () =&gt; handleClick(img, sym));
+
+    grid.appendChild(img);
+});
+
+/* Lógica */
+function handleClick(el, sym) {
+    if (isResetting) return;
+    if (lockedIds.includes(sym.id)) return;
+
+    if (sym.id === correctOrder[progress]) {
+        el.src = `img/candado/${sym.type}_${DOOR_COLOR}.png`;
+        lockedIds.push(sym.id);
+        progress++;
+
+        if (progress === correctOrder.length) {
+            unlockDoor();
+        }
+    } else {
+        el.src = `img/candado/${sym.type}_mal.png`;
+        resetPuzzle();
+    }
+}
+
+function resetPuzzle() {
+    isResetting = true;
+    progress = 0;
+    lockedIds = [];
+
+    setTimeout(() =&gt; {
+        document.querySelectorAll(&quot;.symbol&quot;).forEach(el =&gt; {
+            el.src = `img/candado/${el.dataset.type}_off.png`;
+        });
+        isResetting = false;
+    }, 600);
+}
+
+function unlockDoor() {
+    lockBase.src = &quot;img/candado/candado_base.png&quot;;
+    AudioSys.play(&quot;victory&quot;, &quot;audio/victory.mp3&quot;, false, 0.8);
+
+    setTimeout(() =&gt; {
+        const link = document.querySelector(&quot;#doorLink tw-link&quot;);
+        if (link) link.click();
+    }, 3000);
+}
+&lt;/script&gt;
+}
+</tw-passagedata><tw-passagedata pid="205" name="Puerta Naranja" tags="" position="3650,25" size="100,100">{
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;creak&#39;, &#39;audio/door_creak.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+(set: $text to &quot;&lt;i&gt;-Te posicionas delante de la puerta naranja, y el mago procede a empujarla, haciendo que se abra con un chirrido metálico-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;&quot;)))
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
