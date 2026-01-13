@@ -9,7 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play TowerBound.</tw-noscript></noscript></tw-story>
-<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.3" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
+<tw-storydata name="TowerBound" startnode="1" creator="Twine" creator-version="2.10.0" format="Harlowe" format-version="3.3.9" ifid="78043558-DD59-4D26-8D23-48AD69679E21" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
     display: none;
 }
 
@@ -39,7 +39,104 @@
 #skip-button.enabled:hover {
 	background: rgba(95,168,255,0.15);
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">// --- SISTEMA DE AUDIO --- 
+
+
+/* ESCENA DE TÍTULO */
+/* Wrapper general */
+#titleWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10vh;
+}
+
+/* Fila principal: personajes y logo */
+#titleRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(24px, 6vw, 120px);
+}
+
+/* Logo */
+#titleScene img,
+.title-center img {
+    max-width: min(70vw, 700px);
+    height: auto;
+}
+
+/* Flecha */
+#continueArrow {
+    margin-top: 30px;
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
+    pointer-events: none;
+}
+
+/* PERSONAJES */
+.side-char {
+    position: relative;
+    /* tamaño del contenedor cambiante */
+    width: clamp(52px, 8vw, 90px);
+    height: clamp(52px, 8vw, 90px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Aura adaptativa */
+.side-char .aura {
+    position: absolute;
+    inset: clamp(-12px, -2vw, -20px);
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(180, 80, 255, 0.25) 0%,
+        rgba(180, 80, 255, 0.12) 40%,
+        rgba(180, 80, 255, 0.0) 70%
+    );
+
+    filter: blur(clamp(4px, 1vw, 6px));
+    z-index: 1;
+}
+
+/* Sprite */
+.side-char img {
+    width: clamp(32px, 4vw, 52px);
+    height: auto;
+    image-rendering: pixelated;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+/* ANIMACIÓN DE SALTO */
+@keyframes hop {
+    0%   { transform: translateY(0); }
+    30%  { transform: translateY(-20px); }
+    60%  { transform: translateY(0); }
+}
+
+.side-char img.hop {
+    animation: hop 0.35s ease-out;
+}
+
+/* Salto más suave en pantallas pequeñas */
+@media (max-width: 600px) {
+    @keyframes hop {
+        0%   { transform: translateY(0); }
+        30%  { transform: translateY(-6px); }
+        60%  { transform: translateY(0); }
+    }
+}
+
+/* Pantallas muy pequeñas*/
+@media (max-width: 360px) {
+    .side-char {
+        opacity: 0.35;
+    }
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// --- SISTEMA DE AUDIO --- 
 
 window.AudioSys = { 
     tracks: {}, 
@@ -415,31 +512,33 @@ window.AudioSys = {
 (display: &quot;Typewriter&quot;)
 }</tw-passagedata><tw-passagedata pid="11" name="Intro 008 - TITLE" tags="No_Skip" position="1350,150" size="100,100">{
 (print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
-&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
-&lt;div style=&quot;
-    width: 100%;
-    text-align: center;
-&quot;&gt;
-    &lt;img id=&quot;fadeImg&quot;
-         src=&quot;img/logo_DEF.png&quot;
-         style=&quot;
-            max-width: 45vw;
-            height: auto;
-         &quot;&gt;
-&lt;/div&gt;
 
-&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
-&lt;div id=&quot;continueArrow&quot;
-     style=&quot;
-        margin-top: 20px;
-        text-align: center;
-        opacity: 0;
-        transition: opacity 0.8s ease-in;
-        pointer-events: none;
-     &quot;&gt;
-    (link: &quot;&amp;#187;&quot;)[ (goto: &quot;PrePuertas 001&quot;) ]
-&lt;/div&gt;
+&lt;div id=&quot;titleWrapper&quot;&gt;
 
+    &lt;!-- Fila --&gt;
+    &lt;div id=&quot;titleRow&quot;&gt;
+
+        &lt;div class=&quot;side-char&quot;&gt;
+            &lt;div class=&quot;aura&quot;&gt;&lt;/div&gt;
+            &lt;img src=&quot;img/mago-pixel.png&quot; id=&quot;magoSprite&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;div id=&quot;titleScene&quot;&gt;
+            &lt;img src=&quot;img/logo_DEF.png&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;side-char&quot;&gt;
+            &lt;div class=&quot;aura&quot;&gt;&lt;/div&gt;
+            &lt;img src=&quot;img/pinguino-pixel.png&quot; id=&quot;pinguinoSprite&quot;&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+
+    &lt;div id=&quot;continueArrow&quot;&gt;
+        (link: &quot;&amp;#187;&quot;)[ (goto: &quot;PrePuertas 001&quot;) ]
+    &lt;/div&gt;
+
+&lt;/div&gt;
 &lt;style&gt;
 @keyframes fadeIn {
     from { opacity: 0; }
@@ -457,7 +556,37 @@ window.setTimeout(function () {
     }
 }, 1100);
 &lt;/script&gt;
-}</tw-passagedata><tw-passagedata pid="12" name="PrePuertas 001" tags="" position="1350,275" size="100,100">{
+
+&lt;script&gt;
+function enableHop(id, soundName, soundFile, volume = 0.6) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener(&quot;click&quot;, () =&gt; {
+        // Sonido
+        AudioSys.play(soundName, soundFile, false, volume);
+        // Salto
+        el.classList.remove(&quot;hop&quot;);
+        void el.offsetWidth;
+        el.classList.add(&quot;hop&quot;);
+    });
+}
+
+// Activar personajes
+enableHop(
+    &quot;magoSprite&quot;,
+    &quot;magoClick&quot;,
+    &quot;audio/magic_wand.mp3&quot;,
+    0.6
+);
+enableHop(
+    &quot;pinguinoSprite&quot;,
+    &quot;pinguinoClick&quot;,
+    &quot;audio/bird.mp3&quot;,
+    0.6
+);
+&lt;/script&gt;
+}
+</tw-passagedata><tw-passagedata pid="12" name="PrePuertas 001" tags="" position="1350,275" size="100,100">{
 (set: $text to &quot;...\n...\n...\n...\n...\n...&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;PrePuertas 002&quot;)))
 (display: &quot;Typewriter&quot;)
