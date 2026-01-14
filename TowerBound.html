@@ -386,12 +386,14 @@ window.AudioSys = {
 (display: &quot;Typewriter&quot;)
 (set: $youWantToHelp to false)
 (set: $ceilingOut to false)
-(set: $totalFinales to 7)
+(set: $enfado to false)
+(set: $totalFinales to 17)
 (set: $finalesEncontrados to (a:))
 (set: $finalSecretoDesbloqueado to false)
 &lt;!--
 - youWantToHelp es para la reacción de Cubito en unos cuantos finales cuando se desvela que es el narrador, que varía según dijeras si quieres ayudar o no
 - ceilingOut es para definir si el techo se ha desplomado más de una vez o no y se usa en la rama de la puerta morada, en &quot;Ilumina Runas 001&quot;, para una pequeña variación de diálogo si se ha pasado por la parte de &quot;No Espejo&quot; y &quot;Calma&quot; previamente
+- enfado es para la rama del ascensor en la puerta naranja, que enseña diálogo adicional si has ido primero a la puerta y luego vuelto al ascensor y quedado allí. También tiene diálogo diferente en algunos finales de esa rama.
 - totalFinales es el número total de finales del juego, se mantiene constante
 - finalesEncontrados es una lista que guarda todos los finales desbloqueados por el jugador
 - finalSecretoDesbloqueado es una variable que desbloquea o no el final secreto si el jugador a pasado ya por todos los demás finales
@@ -1181,16 +1183,16 @@ if (!AudioSys.currentBgMusic || AudioSys.currentBgMusic !== &#39;bgmusic&#39;) {
 (set: $text to &quot;&lt;i&gt;-El mago, tosiendo entre el polvo, grita-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡NO! ¡No puede ser! ¡No nos rendiremos! ¡Cubito, Luz, resistid!&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 003&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="99" name="Tu solucion 003" tags="" position="4450,1125" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="99" name="Tu solucion 003" tags="" position="4450,1100" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;︵╰(°□°)╯︵&lt;/span&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 004&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="100" name="Tu solucion 004" tags="" position="4425,1250" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="100" name="Tu solucion 004" tags="" position="4425,1225" size="100,100">{
 (print: &quot;&lt;script&gt;AudioSys.play(&#39;magic&#39;, &#39;audio/magic_whoosh.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Los escombros caen sin piedad.\nEl mago, con las manos ensangrentadas, intenta una y otra vez un hechizo tras otro bajo la luz que le proporcionas...\n...pero sus palabras se ahogan en el polvo, y sus dedos tiemblan bajo el peso de los hechizos que son incapaces de salvaros....-&lt;/i&gt;&quot;)
 (set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Tu solucion 005&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="101" name="Tu solucion 005" tags="" position="4375,1375" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="101" name="Tu solucion 005" tags="" position="4375,1350" size="100,100">{
 (set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No... no puede ser el final...\nCubito, ¿me escuchas?\n¡Luz, no nos dejes en la oscuridad!\nPor favor, un poco más de tiempo...\n
 Un...\n &lt;span style=&#39;display:inline-block; animation:fadePulse 2s ease-in-out infinite;&#39;&gt;&lt;i&gt;...respiro&lt;/i&gt;&lt;/span&gt;&lt;/span&gt;&quot;)
 (set: $links to (a:(dm:&#39;name&#39;,&#39;&gt;&gt;&#39;,&#39;passage&#39;,&#39;Tu solucion 006&#39;)))
@@ -1949,7 +1951,7 @@ AudioSys.playBgMusic(&#39;bg_hopeful_piano&#39;, &#39;audio/hopeful_piano.mp3&#3
 (set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Gracias por explorar la torre con nosotros, por ser parte de nuestra historia&lt;/span&gt;&quot;)
 (set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Secreto 032&quot;)))
 (display: &quot;Typewriter&quot;)
-}</tw-passagedata><tw-passagedata pid="197" name="Secreto 033" tags="No_Skip" position="225,1525" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="197" name="Secreto 033" tags="No_Skip" position="100,1650" size="100,100">{
 (print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 &lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
 &lt;div style=&quot;
@@ -2212,8 +2214,1498 @@ function unlockDoor() {
 </tw-passagedata><tw-passagedata pid="205" name="Puerta Naranja" tags="" position="3650,25" size="100,100">{
 (print: &quot;&lt;script&gt;AudioSys.play(&#39;creak&#39;, &#39;audio/door_creak.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
 (set: $text to &quot;&lt;i&gt;-Te posicionas delante de la puerta naranja, y el mago procede a empujarla, haciendo que se abra con un chirrido metálico-&lt;/i&gt;&quot;)
-(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;&quot;)))
+(set: $links to (a: (dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Naranja 1&quot;)))
 (display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="206" name="Naranja 1" tags="" position="3650,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago pasa cautelosamente la puerta junto a Cubito de Hielo, siguiéndoles tú detrás-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Naranja 002&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="207" name="Naranja 2" tags="" position="3650,275" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Esto es nuevo… ¿por qué hay aquí un ascensor? Es la primera vez que vemos algo así, ¿verdad, Cubito?&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Naranja 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="208" name="Naranja 3" tags="" position="3650,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Aún así, debo decir que este ascensor no parece particularmente… fiable. No parece haber sido usado en casi un lustro con esas pintas…&lt;/span&gt;\n&lt;i&gt;-El óxido claramente se adueñaba de los probablemente vivos colores que este antiguo ascensor (si así se le puede llamar a esta plataforma) tendría antaño, y no parecía disponer de ninguna medida de emergencia para salir en caso de quedar atrapados-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Naranja 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="209" name="Naranja 4" tags="" position="3775,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se da una vuelta por la habitación, examinando todo detenidamente-&lt;/i&gt;&lt;span style=&#39;color:#c27cff&#39;&gt;También hay una puerta detrás del ascensor… ¿por dónde vamos?&lt;/span&gt;\n&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Naranja 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="210" name="Naranja 5" tags="Decisión" position="3900,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Me da un poco de… yuyu ir por ahí abajo, la verdad, pero bueno, lo que sea que nos lleve a la salida.&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;La puerta&quot;, &quot;passage&quot;, &quot;Pasarela 1&quot;),(dm: &quot;name&quot;, &quot;El ascensor&quot;, &quot;passage&quot;, &quot;Ascensor 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="211" name="Pasarela 1" tags="" position="3950,275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te acercas a la puerta para señalizar tu decisión-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Uf… me das una alegría, Luz, no era yo muy partidario de… bueno, bajar por ahí…&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(•̀ᴗ•́)و&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="212" name="Pasarela 2" tags="" position="4000,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Abrís la puerta, y un gran destello de luz os ciega la visión-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Espera… ¿el exterior? Ah, no…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="213" name="Pasarela 3" tags="" position="4125,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Observas a tu alrededor y notas que estáis en una pasarela elevada. Las ventanas dan al exterior, pero parece que estáis a demasiada altura como para poder hacer algo al respecto, además de lo pequeñas que son las ventanas-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="214" name="Pasarela 4" tags="" position="4250,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Al fondo se puede ver que esta pasarela conecta con una segunda torre de aspecto aún más lúgubre si cabe-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="215" name="Pasarela 5" tags="Decisión" position="4375,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Ves al mago correr rápidamente hacia allí, y quedarse delante de la puerta estupefacto-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¿Prueba… de la Confianza? Veamos… ¡ejem! “Aquellos osados prisioneros que pasen por esta puerta deberán cooperar con sus cercanos para lograr escapar por el fondo de esta torre”. ¿¡Has oído eso, Luz!? ¡Podemos salir por aquí!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Proceder a la Prueba de la Confianza&quot;, &quot;passage&quot;, &quot;Confianza 1&quot;),(dm: &quot;name&quot;, &quot;Dar marcha atrás&quot;, &quot;passage&quot;, &quot;Pasarela 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="216" name="Pasarela 6" tags="" position="4325,275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te das la vuelta y vuelves de nuevo al ascensor, colocándote dentro de él, mostrando tu decisión de no entrar a la otra torre-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 7&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="217" name="Pasarela 7" tags="Decisión" position="4275,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago llega poco después que tú, con Cubito en brazos, jadeando ligeramente-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¿Se puede saber qué mosca te ha picado? ¡Podemos salir por allí! ¡Esto seguramente nos va a llevar bajo tierra!&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Quedarse en el ascensor&quot;, &quot;passage&quot;, &quot;Quedarse Ascensor&quot;),(dm: &quot;name&quot;, &quot;Volver a la Prueba de la Confianza&quot;, &quot;passage&quot;, &quot;Pasarela 8&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="218" name="Quedarse Ascensor" tags="Cambio-variable" position="4150,400" size="100,100">{
+(set: $enfado to true)
+(set: $text to &quot;&lt;i&gt;-Te muestras impasible ante los intentos de convencerte, si moverte ni un ápice-&lt;/i&gt;\n&lt;i&gt;-El mago se queda atónito (y ligeramente molesto) mirándote un par de segundos-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="219" name="Ascensor 1" tags="Cambio-variable" position="4025,400" size="100,100">{
+(set: $enfado to false)
+(set: $text to &quot;&lt;i&gt;-Te colocas dentro del ascensor, mostrando tu intención de descubrir lo que aguarda dicho descenso-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="220" name="Ascensor 2" tags="" position="4100,525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago resopla demostrando claramente su resignación ante tu selección-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Bah, de acuerdo, tú ganas, Luz, vamos allá...&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="221" name="Ascensor 3" tags="" position="4150,650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El ascensor desciende lentamente. No podéis ver nada más que unas paredes de piedra ruinosas y claramente poco cuidadas-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Pero bueno, ¿cuánto baja esto? ¿Qué pasa aquí? A este paso vamos a ll-&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="222" name="Confianza 1" tags="" position="4500,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Entráis a la sala, y veis un agujero en el suelo con una cuerda colgando desde el techo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="223" name="Confianza 2" tags="" position="4625,150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Nuestra vía de escape al fin! Aunque dudo mucho que esto sea tan fácil, un segundo…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="224" name="Confianza 3" tags="" position="4750,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Tanto tú como el mago notáis la presencia de otro cartel-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;A ver qué dice este… “La gruta que se abre a vuestros pies consta de cinco pruebas distribuidas en sus cinco plantas, al descender tendréis que cooperar según lo indicado por la prueba. Si uno de los dos participantes falla, será desterrado de esta torre y el otro será liberado a tierras más verdes. Si ambos lográis alcanzar el final de este descenso, seréis liberados juntos.”&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="225" name="Confianza 4" tags="" position="4875,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;Espera, ¿tengo que cooperar con Cubito? ¡Esto está chupado, te tenemos encima a ti para ayudar, Luz! ¡Venga, bajemos!&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="226" name="Confianza 5" tags="" position="5000,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-La quinta, cuarta, tercera y segunda planta son muy sencillas, y el mago y Cubito las resuelven sin siquiera requerir ninguna ayuda tuya-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="227" name="Confianza 6" tags="" position="5125,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Llegáis a la primera y última planta, en la que hay dos salas, y cada participante tiene que entrar en una distinta-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 7&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="228" name="Confianza 7" tags="" position="5250,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Al ser una luz, puedes entrar en ambas a través de la ventilación que conecta con la sala principal, pero entras con el mago de primeras-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 8&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="229" name="Confianza 8" tags="" position="5375,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Veis un cartel que indica lo siguiente: “Pulse el botón que cree que pulsará su compañero, pues los botones deben coincidir”-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 9&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="230" name="Confianza 9" tags="" position="5500,150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Espera, ¡esto es puro azar! Además, ¿cómo distinguen siquiera quién es el que falla? ¿El último que lo pulse…?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 10&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="231" name="Confianza 10" tags="" position="5625,150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Vale, tengo una idea, vete a ver qué pulsa Cubito, y vienes a decírmelo, ¿vale?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 11&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="232" name="Confianza 11" tags="" position="5750,150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Sales de la sala del mago y entras a ver qué ha pulsado Cubito-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 12&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="233" name="Confianza 12" tags="" position="5750,275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te acercas al panel y ves que Cubito ha pulsado el botón derecho-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 13&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="234" name="Confianza 13" tags="Decisión" position="5750,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Vuelves a la sala a indicar al mago el botón que debe pulsar-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;El izquierdo&quot;, &quot;passage&quot;, &quot;Traición 1&quot;),(dm: &quot;name&quot;, &quot;El derecho&quot;, &quot;passage&quot;, &quot;Confianza 14&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="235" name="Traición 1" tags="" position="5875,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Notas que suena un chasquido cerca de la puerta-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Traición 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="236" name="Traición 2" tags="" position="6000,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se dispone a salir, pensando que todo está bien, pero nota que la puerta no se abre. Antes de que se percate, te marchas de la sala al igual que antes-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Traición 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="237" name="Traición 3" tags="" position="6000,275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te parece escuchar unos gritos a lo lejos, pero no pareces darle importancia, y sales por la puerta de la torre, ya abierta, sin mirar atrás-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Traición 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="238" name="Confianza 14" tags="" position="5750,525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Suena una áspera voz, como si de megafonía se tratase, anunciando que la torre ha sido superada, y que las puertas han sido abiertas-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 15&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="239" name="Confianza 15" tags="" position="5750,650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Lo… ¿lo hicimos? ¡Lo hicimos, Luz!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 16&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="240" name="Confianza 16" tags="" position="5750,775" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago sale corriendo a velocidad vertiginosa de la habitación, tropezando con Cubito, que se encontraba esperándole tras la puerta de la sala, y cayendo de morros al suelo de forma aparatosa-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 17&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="241" name="Confianza 17" tags="" position="5750,900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Ay… estoy bien, chicos…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 18&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="242" name="Confianza 18" tags="" position="5750,1025" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Ves al mago levantar el pulgar, todavía tirado en el suelo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 19&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="243" name="Confianza 19" tags="" position="5875,1025" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Una vez reincorporado, salís por la puerta de la torre-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 20&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="244" name="Confianza 20" tags="" position="6000,1025" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Por fin! ¡Aire fresco, Cubito! ¡¡SOMOS LIBRES!!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 21&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="245" name="Confianza 21" tags="" position="6000,900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Ejem! Perdón, la excitación del momento... Bueno, ¿nos acompañas, Luz?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 22&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="246" name="Pasarela 8" tags="" position="4400,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Decides hacer caso al mago y volvéis a paso (en tu caso, ¿flote?) acelerado a la otra torre, como si fuera un espejismo que pudiera desaparecer en cualquier momento…-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 9&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="247" name="Pasarela 9" tags="" position="4525,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-…y, de hecho, eso es exactamente lo que ocurre. Al acercaros a la otra torre de nuevo, notáis que el cartel ha cambiado-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 10&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="248" name="Pasarela 10" tags="" position="4650,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¿¿¿??? ¡Ejem! “Aquellos que no cooperan de forma directa con sus cercanos no serán admitidos para realizar el rito”&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 11&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="249" name="Pasarela 11" tags="" position="4775,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago tarda un par de segundos en darse cuenta de las implicaciones de lo que acaba de leer en voz alta, mientras notas como una mueca de terror aparece lentamente en su cara-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 12&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="250" name="Pasarela 12" tags="" position="4900,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No… ¡no puede ser! ¡Esta era nuestra forma de salir! ¿¡Por qué, Luz!? ¿¡Por qué has tenido que vagar a tus anchas!? ¡Podríamos haber salido de esta dichosa torre, maldita sea!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;︵╰(°□°)╯︵&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 13&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="251" name="Pasarela 13" tags="" position="5025,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Ya veo que no nos vas a ser de ayuda… vámonos, Cubito, encontraremos la manera de salir de… ¿eh?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 14&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="252" name="Pasarela 14" tags="" position="5150,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Ves al mago girarse lentamente ante un ruido que proviene de detrás de ti-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 15&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="253" name="Pasarela 15" tags="" position="5275,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-La torre con la Prueba de la Confianza se está derrumbando, y notas como la pasarela comienza a tambalearse y desmoronarse. El mago y Cubito corren hacia la torre principal, pero tropiezan con los escombros que comienzan a caer y no llegan a tiempo a la puerta antes de que quede bloqueada-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 16&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="254" name="Pasarela 16" tags="" position="5400,400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Oh, genial! Ahora nosotros moriremos aquí y tú te irás de rositas revoloteando tan tranquilamente. Era eso lo que buscabas, ¿eh? ¿Darnos falsas esperanzas para arrebatárnoslas de la forma más grotesca posible? Pues mira tú por dónde, ¡lo has cons-! ¿?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 17&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="255" name="Pasarela 17" tags="" position="5525,400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Ves a Cubito temblando interponerse en medio de ti y del mago agitando los brazos, tratando de parar la discusión-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ╥_╥ʔ&lt;/span&gt;\n&lt;i&gt;-El mago se queda callado un par de segundos-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 18&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="256" name="Pasarela 18" tags="" position="5525,525" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Quizá he dejado mi estrés tomar las riendas por completo hace un segundo, pero si de verdad estás aquí para ayudar, ¡haz algo, te lo suplico!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 19&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="257" name="Pasarela 19" tags="Decisión" position="5525,650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Miras a tu alrededor para ver qué puedes hacer-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;No hacer nada&quot;, &quot;passage&quot;, &quot;Indeciso 1&quot;),(dm: &quot;name&quot;, &quot;Señalizar una cornisa&quot;, &quot;passage&quot;, &quot;Pasarela 20&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="258" name="Indeciso 1" tags="" position="5400,650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Manteniéndote en línea con la indecisión que te lleva caracterizando todo este tiempo, no haces nada-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Indeciso 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="259" name="Indeciso 2" tags="" position="5275,650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Poco después, la pasarela se desploma con todos dentro-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Indeciso 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="260" name="Pasarela 20" tags="" position="5525,775" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te acercas a una cornisa de la torre principal que se deja ver tras los escombros para señalizar que se agarren allí-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 21&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="261" name="Pasarela 21" tags="" position="5525,900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se esfuerza para llegar ahí con Cubito de Hielo, y justo al lograrlo, como si el destino les estuviera mostrando lo que podría haber ocurrido, se termina de desplomar la pasarela-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 22&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="262" name="Pasarela 22" tags="" position="5525,1025" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El viento que sopla es muy intenso, lo cual hace que tengan que agarrarse con fuerza para no salir despedidos-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 23&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="263" name="Pasarela 23" tags="" position="5525,1150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¿¡Y ahora qué hacemos?!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;⊙﹏⊙&lt;/span&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Espera! ¡Veo una forma de bajar! ¡Espera aquí, Cubito! Tengo que probar yo primero, ¡contigo no puedo!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(•̀ᴗ•́)و&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 24&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="264" name="Pasarela 24" tags="" position="5525,1275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago baja a la cornisa izquierda, luego la derecha, otra vez la derecha, luego la del centro, la de la derecha de nuevo, tras ello la izquierda, una vez más la derecha, y finalmente la del centro-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 25&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="265" name="Pasarela 25" tags="" position="5525,1400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago logra descender por las cornisas y vuelve a tierra firme, fuera de la torre al fin-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡No me lo puedo creer, estamos fuera de verdad! ¡Por fin!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 26&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="266" name="Pasarela 26" tags="" position="5525,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago grita a todo pulmón-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Cubito, baja por donde lo he hecho yo!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 27&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="267" name="Pasarela 27" tags="" position="5525,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Dado que has bajado junto al mago, se te acerca ligeramente desesperado-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 28&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="268" name="Pasarela 28" tags="" position="5525,1775" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Por favor, Luz, ¡tienes que marcarle el camino para bajar! ¡No creo que me haya visto, pero tú sí!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 29&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="269" name="Pasarela 29" tags="" position="5550,1900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Subes a donde se encuentra Cubito, y mediante tu posición, comienzas a señalizarle por donde bajar. Cubito parece entender lo que estás haciendo y te sigue-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 30&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="270" name="Pasarela 30" tags="Decisión" position="5675,1900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Recuerda, el mago bajó a la cornisa izquierda, luego la derecha, otra vez la derecha, luego la del centro, la de la derecha de nuevo, tras ello la izquierda, una vez más la derecha, y finalmente la del centro-&lt;/i&gt;\n&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Pasarela 31&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Error 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="271" name="Pasarela 31" tags="Decisión" position="5700,1775" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Pasarela 32&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="272" name="Pasarela 32" tags="Decisión" position="5700,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Pasarela 33&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="273" name="Pasarela 33" tags="Decisión" position="5700,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Pasarela 34&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Error 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="274" name="Pasarela 34" tags="Decisión" position="5700,1400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Pasarela 35&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="275" name="Pasarela 35" tags="Decisión" position="5750,1275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Pasarela 36&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Error 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="276" name="Pasarela 36" tags="Decisión" position="5875,1275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Pasarela 37&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="277" name="Pasarela 37" tags="Decisión" position="5900,1400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas en la cornisa:-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Izquierda&quot;, &quot;passage&quot;, &quot;Error 1&quot;),(dm: &quot;name&quot;, &quot;Centro&quot;, &quot;passage&quot;, &quot;Pasarela 38&quot;),(dm: &quot;name&quot;, &quot;Derecha&quot;, &quot;passage&quot;, &quot;Error 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="278" name="Error 1" tags="" position="5675,2025" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te equivocas en una de las instrucciones, por lo que Cubito patina ligeramente, y se cae de la cornisa-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Error 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="279" name="Error 2" tags="" position="5625,2150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago intenta atraparlo en un intento desesperado de salvarlo, pero no llega a tiempo para ello, y los últimos segundos que marcan la vida de Cubito terminan tan rápido como empezaron-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Error 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="280" name="Error 3" tags="" position="5500,2150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡CUBITOOOOOO!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Error 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="281" name="Pasarela 38" tags="" position="5900,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Gracias a tus instrucciones, Cubito alcanza tierra firme y se reúne con el mago-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 39&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="282" name="Pasarela 39" tags="" position="5900,1650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Muchas gracias, Luz! Siento… lo de antes, estaba muy frustrado con toda la situación… agradezco de veras tu ayuda con todo esto.&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ•ᴥ•ʔ&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 40&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="283" name="Pasarela 40" tags="" position="5900,1775" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Por fin somos libres, Cubito!&lt;/span&gt;\n&lt;i&gt;-El mago zarandea ligeramente a Cubito, que parece estar igual de emocionado que él-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ•ᴥ•ʔﾉ♡&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 41&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="284" name="Pasarela 41" tags="" position="5900,1900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Bueno, nos vamos, que va siendo hora, ¿quieres venir con nosotros, Luz? Y así vamos arreglando nuestras diferencias por el camino, ¡jajajaja!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;ε=ε=┌ʕ•ᴥ•ʔ┘&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 42&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="285" name="Ascensor 4" tags="" position="4200,775" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Antes de que el mago pudiera terminar su frase, notáis que el ascensor se detiene por completo, no sin antes soltar un estruendo nada alentador-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="286" name="Ascensor 5" tags="" position="4250,900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Lo que nos faltaba! ¿Algo más que pueda salir mal?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="287" name="Ascensor 6" tags="" position="4375,900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Notas como Cubito de Hielo se esconde tras la pierna del mago, agarrándose firmemente a ella-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;⊙﹏⊙&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 7&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="288" name="Ascensor 7" tags="" position="4500,900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Acto seguido, como burlándose de la exasperación del mago, las luces del ascensor comienzan a parpadear, apagando así el único consuelo que les quedaba, y quedando tú como única (y tenue) iluminación-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 8&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="289" name="Ascensor 8" tags="" position="4625,900" size="100,100">{
+(if: $enfado is false)[
+	(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Dios mío… ¿para qué te habremos hecho caso? Encima tú ahora puedes simplemente…&lt;/span&gt;\n&lt;i&gt;-El mago se calla, dándose cuenta de que no debería continuar su frase, por algún motivo-&lt;/i&gt;&quot;)
+]
+(else:)[
+	(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡No me lo puedo creer! Dichosa luz desgraciada, nos haces venir por aquí por algún motivo, ¡y míranos ahora! Ahora qué, ¿eh? Si es que tendríamos que haber ido por la otra torre, maldita sea... Encima tú puedes flotar así que encima ahora nos dejarás aquí y...&lt;/span&gt;\n&lt;i&gt;-El mago se calla, dándose cuenta de que no debería continuar su frase, por algún motivo-&lt;/i&gt;&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 9&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="290" name="Ascensor 9" tags="Decisión" position="4750,900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Luz, disculpa mis formas hace un momento, ¿puedes ayudarnos? No tenemos ninguna forma de salir, pero tú seguro que puedes hacer o pensar algo…&lt;/span&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;…por eso de que flotas y tal…&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Escapar por tu cuenta&quot;, &quot;passage&quot;, &quot;Asciende 1&quot;),(dm: &quot;name&quot;, &quot;Tratar de ayudar&quot;, &quot;passage&quot;, &quot;Ascensor 10&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="291" name="Asciende 1" tags="" position="4875,900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Comienzas a ascender por el hueco del ascensor, dejando atrás al mago y a Cubito de Hielo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Asciende 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="292" name="Asciende 2" tags="" position="5000,900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No… ¡Nooo! ¡No nos dejes aquí, por favor!&lt;/span&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Luz!&lt;/span&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡LUUUUUZ!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;ʕ╥_╥ʔ&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Asciende 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="293" name="Asciende 3" tags="" position="5125,925" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Sus voces y graznidos pierden presencia a medida que asciendes-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Asciende 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="294" name="Asciende 4" tags="" position="5175,1050" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Finalmente, dejas de escucharlos por completo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Asciende 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="295" name="Ascensor 10" tags="" position="4750,1025" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Miras a tu alrededor, tratando de ver lo que puede servir-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 11&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="296" name="Ascensor 11" tags="Decisión" position="4875,1075" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Detalles de la escena:-&lt;/i&gt;&lt;ul style=&#39;margin-left:20px;&#39;&gt;&lt;li&gt;&lt;i&gt;&lt;b&gt;Verja del ascensor: &lt;/b&gt;Parece bastante endeble debido al paso de los años, pero no parece posible romperla sin herramientas.&lt;/i&gt;&lt;/li&gt;&lt;li&gt;&lt;i&gt;&lt;b&gt;Paredes del pozo: &lt;/b&gt;Aproximadamente 5 centímetros más allá de la verja en las 4 direcciones. No parece haber nada destacable.&lt;/i&gt;&lt;/li&gt;&lt;li&gt;&lt;i&gt;&lt;b&gt;Puerta del ascensor: &lt;/b&gt;Desgastada, posiblemente podría forzarse su apertura de forma manual con suficiente fuerza. A su lado, se encuentran los botones para bajar y subir y una palanca.&lt;/i&gt;&lt;/li&gt;&lt;li&gt;&lt;i&gt;&lt;b&gt;Hendidura circular: &lt;/b&gt;Encima de la puerta, hay un dispositivo conectado con cables al ascensor que tiene una hendidura circular en la que se puede colocar algo.&lt;/i&gt;&lt;/li&gt;&lt;/ul&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Accionar la palanca&quot;, &quot;passage&quot;, &quot;Palanca 1&quot;),(dm: &quot;name&quot;, &quot;Tratar de abrir la puerta&quot;, &quot;passage&quot;, &quot;Abrir puerta 1&quot;),(dm: &quot;name&quot;, &quot;Colocarse en la hendidura circular&quot;, &quot;passage&quot;, &quot;Ascensor 12&quot;),(dm: &quot;name&quot;, &quot;Esperar a que ocurra algo&quot;, &quot;passage&quot;, &quot;Esperar 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+</tw-passagedata><tw-passagedata pid="297" name="Esperar 1" tags="" position="4700,1175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Decides que esperar a que el ascensor vuelva a funcionar sería la opción más sensata-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Esperar 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="298" name="Esperar 2" tags="" position="4625,1300" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Tu plan de acción parece preocupar ligeramente al mago, pero no te dice nada, simplemente espera contigo a que algo ajeno a vuestras acciones os saque de ahí-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Esperar 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="299" name="Esperar 3" tags="" position="4575,1425" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El tiempo siguió su curso, pero nada llegó a ocurrir-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Esperar 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="300" name="Esperar 4" tags="" position="4550,1550" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Con el paso de los días, la sed y hambre del mago fue deteriorando su estado mental, al igual que Cubito, que parecía cada vez más inquieto de lo normal-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Esperar 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="301" name="Esperar 5" tags="" position="4425,1575" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El milagro nunca llegó-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Esperar 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="302" name="Palanca 1" tags="" position="4775,1300" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas delante de la palanca, para que el mago la accione-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="303" name="Palanca 2" tags="" position="4725,1425" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se acerca y mueve la palanca hacia abajo. Parece estar atascada, por lo que notas cómo el mago trata de hacer mucha fuerza para que baje-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;hnnnnnnng….argh…...dichosa palanca…….vamos……&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="304" name="Palanca 3" tags="" position="4700,1550" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Finalmente, ves cómo la palanca finalmente baja, pero de la fuerza que ha hecho el mago, se rompe-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="305" name="Palanca 4" tags="" position="4675,1675" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Acto seguido, se escucha un desagradable chirrido metálico, seguido de un horrible descubrimiento: estáis en caída libre junto con el ascensor-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡AHHHHHHH!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;╰(°□°)╯&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="306" name="Palanca 5" tags="" position="4550,1700" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Se oye un gran estruendo una vez el ascensor toca fondo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="307" name="Palanca 6" tags="" position="4425,1725" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Por desgracia, nadie logra salir ileso de dicha caída-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 7&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="308" name="Palanca 7" tags="" position="4300,1750" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-La luz se apaga...-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 8&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="309" name="Abrir puerta 1" tags="" position="4975,1075" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te colocas delante de la puerta, tratando de señalizar al mago que pruebe a abrirla-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Abrir puerta 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="310" name="Abrir puerta 2" tags="" position="4925,1175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se acerca e intenta hacer fuerza-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Abrir puerta 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="311" name="Abrir puerta 3" tags="Decisión" position="4825,1175" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Uf, qué va! Parece estar atascada o algo. ¿Se te ocurre otra cosa?&lt;/span&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Accionar la palanca&quot;, &quot;passage&quot;, &quot;Palanca 1&quot;),(dm: &quot;name&quot;, &quot;Colocarse en la hendidura circular&quot;, &quot;passage&quot;, &quot;Ascensor 12&quot;),(dm: &quot;name&quot;, &quot;Esperar a que ocurra algo&quot;, &quot;passage&quot;, &quot;Esperar 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="312" name="Ascensor 12" tags="" position="4900,1300" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te introduces en la hendidura circular, con la esperanza de que ocurra algo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 13&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="313" name="Ascensor 13" tags="" position="4925,1425" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Momentos después, el ascensor comienza a recuperar la electricidad y las luces se vuelven a encender-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 14&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="314" name="Ascensor 14" tags="" position="4925,1550" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te mantienes colocado ahí durante el resto del descenso para seguir dándole energía al ascensor, pero notas cómo tus sentidos empiezan a fallar: no ves y escuchas del todo bien-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 15&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="315" name="Ascensor 15" tags="" position="4925,1675" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El ascensor llega al fondo y se detiene. Sales de la hendidura, pero sientes que tus movimientos son torpes-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 16&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="316" name="Ascensor 16" tags="" position="4925,1800" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Ey, Luz! ¿Estás bien? Te habrás quedado sin fuerzas, ¿no?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 17&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="317" name="Ascensor 17" tags="" position="4925,1925" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Seguís avanzando por el pasillo al que habéis llegado gracias al ascensor (en tu caso, siguiendo las tenues voces que escuchas delante de ti)-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 18&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="318" name="Ascensor 18" tags="" position="4925,2050" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡No te preocupes, Luz! Tú siguen-&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 19&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="319" name="Ascensor 19" tags="" position="4925,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-La frase del mago se corta tras el sonido de un golpe, que es seguido de otro sonido un poco menos estruendoso, pero igual de preocupante-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 20&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="320" name="Ascensor 20" tags="" position="4800,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-No sabes qué ha pasado, dado que apenas puedes ver. Te parece escuchar una voz detrás de ti, además del sonido del ascensor, pero no logras comprender qué está pasando-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 21&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="321" name="Ascensor 21" tags="" position="4675,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-No sabes cuánto tiempo ha pasado, pero notas que tus sentidos van recobrando la normalidad tras el extenuante viaje en ascensor-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 22&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="322" name="Ascensor 22" tags="" position="4550,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Ves al mago y a Cubito tirados en el suelo, boca abajo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 23&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="323" name="Ascensor 23" tags="" position="4425,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Parecen simplemente estar inconscientes-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 24&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="324" name="Ascensor 24" tags="" position="4300,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Según te acercas, ves al mago tratar de reincorporarse, trastabillando un par de veces antes de lograrlo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 25&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="325" name="Ascensor 25" tags="" position="4175,2175" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Ay… ¿qué demonios ha pasado, Luz? Espera, ¿Cubito? ¡Cubito!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 26&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="326" name="Ascensor 26" tags="" position="4050,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago zarandea el inmóvil cuerpo de su pequeño amigo, que abre los ojos ante tal meneo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 27&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="327" name="Ascensor 27" tags="" position="3925,2175" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Menos mal, Cubito…&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(•̀ᴗ•́)و&lt;/span&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Por un momento pensé que… bueno… da igual, ¿estamos todos bien?&lt;/span&gt;\n&lt;i&gt;-Haces unos movimientos lo más cercanos posibles a asentir (no muy cercanos, a vista del mago, pero logra comprenderte)-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 28&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="328" name="Ascensor 28" tags="" position="3800,2175" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Bueno, pues vamos a ver qué hay por aquí entonces, ¡venga!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 29&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="329" name="Ascensor 29" tags="" position="3675,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Notas al mago palparse un momento la parte de atrás de la cabeza, junto a un débil quejido de dolor, pero no realiza ningún comentario al respecto-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 30&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="330" name="Ascensor 30" tags="" position="3550,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Seguís recorriendo los aparentemente interminables pasillos, que en poco se parecen a la torre en la que teóricamente estáis atrapados-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 31&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="331" name="Ascensor 31" tags="" position="3425,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Un fuerte hedor acompaña vuestro viaje por los lúgubres pasillos, denotando la falta de ventilación de este sitio-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 32&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="332" name="Ascensor 32" tags="" position="3300,2175" size="100,100">{
+(set: $text to &quot;&lt;i&gt;&lt;span style=&#39;color:#c27cff&#39;&gt;¿Seguro que lograremos salir por aquí? Con todo lo que hemos bajado casi parece que estemos en la planta -50, no parece muy alentador.&lt;/span&gt;&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 33&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="333" name="Ascensor 33" tags="" position="3175,2200" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Siguiendo al mago, decidís volver a la zona del ascensor, pero descubrís que ya no está ahí-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 34&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="334" name="Ascensor 34" tags="" position="3050,2225" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;No puede ser…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 35&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="335" name="Ascensor 35" tags="" position="2925,2250" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago corre, sosteniendo a Cubito para no dejarlo atrás, mientras que tú los sigues a un metro de distancia-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 36&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="336" name="Ascensor 36" tags="" position="2800,2250" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡No parece haber manera de llamarlo! Madre mía… ¿y ahora qué?&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;︵ʕ;•ᴥ•ʔ︵&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 37&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="337" name="Ascensor 37" tags="" position="2675,2250" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago parece percatarse de un desgastado cartel encima del hueco del ascensor-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 38&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="338" name="Ascensor 38" tags="" position="2550,2250" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Oh, no… Luz, mira esto… estamos acabados…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 39&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="339" name="Ascensor 39" tags="" position="2425,2250" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El cartel dice lo siguiente: “El ascensor solo funciona en un sentido, no se dispone de botón para llamarlo. De forma automática el ascensor vuelve hacia arriba pasado un minuto”-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 40&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="340" name="Ascensor 40" tags="" position="2300,2250" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Lo que nos faltaba, ¿qué hacemos?&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(；一_一)&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 41&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="341" name="Ascensor 41" tags="" position="2175,2250" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Decidís explorar más a fondo estos decrépitos pasillos y, tras una intensiva búsqueda, encontráis una puerta claramente desgastada por el paso del tiempo, pero no se abre-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 42&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="342" name="Ascensor 42" tags="" position="2050,2250" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Bueno, ¡pues a la fuerza!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 43&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="343" name="Ascensor 43" tags="" position="1925,2250" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Ves al mago placar a la puerta varias veces, hasta que a la última logra abrir la puerta, que se abre de sopetón-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 44&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="344" name="Ascensor 44" tags="" position="1800,2250" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Al entrar, os encontráis con un enorme aparato que parece ocupar gran parte de la sala. A su lado, un pequeño escritorio de madera con una lámpara y varios documentos, y una silla (o lo que queda de ella, dado que le falta la parte para sentarse). También vislumbráis una herramienta tirada en la esquina de la habitación-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 45&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="345" name="Ascensor 45" tags="" position="1675,2250" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¿Qué narices es todo esto, entendéis algo?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 46&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="346" name="Ascensor 46" tags="" position="1550,2200" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Tú y el pingüino hacéis lo que a duras penas se podría llamar el mismo gesto, pero denotando la misma confusión que el mago-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;︵ʕ;•ᴥ•ʔ︵&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 47&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="347" name="Ascensor 47" tags="" position="1425,2150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Vale, a ver si hay al-&lt;/span&gt;\n&lt;i&gt;-El mago se da cuenta de la herramienta de la esquina y se acerca-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Chicos, esto es una radial, nos puede servir para cortar los barrotes de nuestra habit-! …oh… el ascensor… es verdad…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 48&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="348" name="Ascensor 48" tags="" position="1400,2025" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Bueno, si necesitamos cortar metal, esto nos puede servir, supongo…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 49&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="349" name="Ascensor 49" tags="" position="1375,1900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te acercas al escritorio para ver qué contienen los documentos, seguido del mago-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 50&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="350" name="Ascensor 50" tags="" position="1350,1775" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Veamos… “Instrucciones para el Transportador Intertemporal”. ¿Qué?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 51&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="351" name="Ascensor 51" tags="" position="1325,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago pasa aproximadamente quince minutos leyendo toda la documentación que había en esa mesa. A pesar del mal estado en el que se encontraban, los documentos eran todavía relativamente legibles-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 52&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="352" name="Ascensor 52" tags="" position="1300,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Una vez termina, muestra una sonrisa de oreja a oreja-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;Chicos, tenemos forma de salir de aquí.&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 53&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="353" name="Ascensor 53" tags="" position="1175,1500" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Procede a explicaros su plan, que consiste en volver al momento en el que el decidisteis bajar en ascensor gracias a esta máquina (cuyo nombre, según el mago, parecía ser una forma un poco pomposa de llamar a una máquina del tiempo), y colarse en él antes de que pase el minuto, con la radial en mano, para poder volver a la habitación y cortar los barrotes de la ventana de la celda-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 54&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="354" name="Ascensor 54" tags="" position="1050,1475" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Sin embargo, vuestras versiones del pasado no podían veros, si lo hacían, automáticamente se os regresaría a este punto en el tiempo, aunque el mago asegura que tiene un plan para evitarlo-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 55&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="355" name="Ascensor 55" tags="" position="925,1475" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Dado que no os queda otra a ninguno de los presentes, decides acceder, colocándote por un par de minutos en una hendidura circular muy similar a la del ascensor. Con ello, la máquina se enciende, el mago la configura, y entráis en la cápsula-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 56&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="356" name="Ascensor 56" tags="" position="800,1500" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Pasan unos muy largos segundos, junto a unos chirridos algo estridentes, pero notáis una extraña sensación cada vez más pronunciada-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 57&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="357" name="Ascensor 57" tags="" position="675,1525" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-De golpe, los chirridos paran, y salís de la sala-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 58&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="358" name="Ascensor 58" tags="" position="700,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se dispone a coger de nuevo la radial, de nuevo colocada en la esquina de la habitación, y salís por patas de camino al ascensor-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 59&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="359" name="Ascensor 59" tags="" position="725,1775" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se dispone a coger de nuevo la radial, de nuevo colocada en la esquina de la habitación, y salís por patas de camino al ascensor-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 60&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="360" name="Ascensor 60" tags="" position="750,1900" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Os colocáis en el primer cruce de los pasillos desde el ascensor, podéis ver desde ahí el lugar donde aparecerá dicha vía de escape si os asomáis-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 61&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="361" name="Ascensor 61" tags="" position="775,2025" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Pasan 20 segundos, y seguís sin aparecer (vuestros “yos” pasados, por supuesto)-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 62&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="362" name="Ascensor 62" tags="" position="800,2150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Estoy empezando a dudar de que no lo haya puesto bien en la máqui-&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 63&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="363" name="Ascensor 63" tags="" position="825,2275" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Según dice eso, se escucha el ascensor descender, y a los pocos segundos, aparecen-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 64&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="364" name="Ascensor 64" tags="" position="950,2325" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Claro, estaban atascados ahí en medio como nosotros…&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 65&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="365" name="Ascensor 65" tags="Decisión" position="1075,2325" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Según se acercan, los tres os volvéis más impacientes, y los nervios están cada vez más a flor de piel-&lt;/i&gt;&quot;)
+(set: $links to (a: (dm: &quot;name&quot;, &quot;Permanecer quieto&quot;, &quot;passage&quot;, &quot;Ascensor 66&quot;),(dm: &quot;name&quot;, &quot;Asomarse para observar&quot;, &quot;passage&quot;, &quot;Paradoja 1&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="366" name="Paradoja 1" tags="" position="1075,2200" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Decides asomarte ligeramente para ver cuánto les falta para llegar hasta vosotros-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 2&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="367" name="Ascensor 66" tags="" position="1200,2350" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Te mantienes inmóvil para evitar fastidiar el plan que pueda tener el mago-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 67&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="368" name="Paradoja 2" tags="" position="950,2150" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Sin embargo, no recuerdas que eres una luz, por lo que, como es más que evidente, ven una pequeña luz aparecer en el cruce a lo lejos, y deciden investigar. Acto seguido, os ven a todos, y sois automáticamente transportados de vuelta a vuestro presente-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="369" name="Paradoja 3" tags="" position="925,2025" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago, desesperado, exclama que es el fin, y se puede ver a Cubito igual de triste ante la situación-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 3&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="370" name="Paradoja 4" tags="" position="900,1900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¿Por qué, Luz? ¿Por qué te has asomado…?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="371" name="Paradoja 5" tags="" position="875,1775" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago y Cubito se van de la sala sin decirte nada, tratando de buscar otra salida, pero sus caras al salir reflejan la aplastante realidad, y sus nulas expectativas-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="372" name="Paradoja 6" tags="" position="850,1650" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-No volviste a verlos nunca más, ni ellos el cielo ni una vez más-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 7&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="373" name="Ascensor 67" tags="" position="1325,2375" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Según pasan el cruce y ya les podéis ver la espalda, el mago arremete contra su versión pasada con la radial como si de una piedra se tratase, y después contra el pingüino, asegurando de no hacerles demasiado daño, pero dejándolos inconscientes de un golpe a la cabeza-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 68&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="374" name="Ascensor 68" tags="" position="1450,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Una vez se asegura de que están inconscientes, declara que tu versión del pasado no es un problema y que está claramente aturdida por lo del ascensor-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 69&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="375" name="Ascensor 69" tags="" position="1575,2400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;Vamos, Cubito, Luz, ¡tenemos 20 segundos!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 70&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="376" name="Ascensor 70" tags="" position="1700,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Con desesperación, lográis entrar en el ascensor a tiempo, y sus puertas se cierran momentáneamente después-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 71&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="377" name="Ascensor 71" tags="" position="1825,2400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Uf! Ay... me pondría a celebrar que lo hemos logrado, pero ahora queda lo importante.&lt;/span&gt;\n&lt;i&gt;-Sin embargo, a la otra criatura presente en el ascensor no parece importarle mucho eso...-&lt;/i&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉﾟДﾟ)ﾉ *:･ﾟ✧&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 72&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="378" name="Ascensor 72" tags="" position="1950,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Llegáis finalmente a la habitación del mago de nuevo, pudiendo respirar algo más tranquilos-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 73&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="379" name="Ascensor 73" tags="" position="2075,2400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Vale! ¡Hora de ver si esta radial sirve para algo!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 74&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="380" name="Ascensor 74" tags="" position="2200,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago no se demora ni un segundo y se aproxima a los barrotes de la ventana-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 75&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="381" name="Ascensor 75" tags="" position="2325,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-La sonoridad de la radial os atude, y saltan chispas por todos lados. Sin embargo, el mago encantó la radial antes de ponerse a ello, para que no fuera necesaria ningún tipo de protección al usarla-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 76&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="382" name="Ascensor 76" tags="" position="2450,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Pasados unos minutos, os llama-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Chicos, lo hemos logrado, nos hemos librado de estos barrotes! Ahora solo queda conseguir una forma de bajar de aqu-&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 77&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="383" name="Ascensor 77" tags="" position="2575,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Mientras dice esto, el mago se está asomando por la ventana, y es entonces cuando se da cuenta de algo vital-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 78&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="384" name="Ascensor 78" tags="" position="2700,2400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Ey, tengo buenas noticias! ¡Ahí abajo hay agua! Estamos alto, ¡pero podemos saltar desde aquí si es lo suficientemente profunda!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 79&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="385" name="Ascensor 79" tags="" position="2825,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago coge el primer objeto que encuentra por la habitación y lo lanza por la ventana, observando atentamente-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 80&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="386" name="Ascensor 80" tags="" position="2950,2400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Chicos, creo que el agua &lt;b&gt;SÍ&lt;/b&gt; es profunda!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 81&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="387" name="Ascensor 81" tags="" position="3075,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-El mago se lanza el primero sin ningún atisbo de duda, tardando unos segundos en golpear la superficie del agua-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 82&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="388" name="Ascensor 82" tags="" position="3200,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Tú y Cubito veis al mago salir a la superficie del agua aparentemente ileso. El mago grita desde abajo-&lt;/i&gt;\n&lt;span style=&#39;color:#c27cff&#39;&gt;¡Vamos, Cubito, tu turno! ¡Es seguro!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 83&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="389" name="Ascensor 83" tags="" position="3325,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Sales por la ventana, para señalizar a Cubito que es el momento de saltar para él también-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 84&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="390" name="Ascensor 84" tags="" position="3450,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Finalmente, ya desde abajo, ves a Cubito saltar, aterrizando de forma algo menos agraciada que el mago en el agua. Igualmente, sale a superficie pocos segundos después, ayudado por el mago-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 85&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="391" name="Ascensor 85" tags="" position="3575,2400" size="100,100">{
+(set: $text to &quot;&lt;i&gt;-Flotando (esta vez los tres, aunque tú en el aire), los tres celebráis vuestra huida-&lt;/i&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 86&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="392" name="Ascensor 86" tags="" position="3700,2400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#c27cff&#39;&gt;¡Por fin somos libres, Cubito! Venga, salgamos de aquí los tres, que a este paso me voy a congelar en el agua, ¡jajajaja!&lt;/span&gt;\n&lt;span style=&#39;color:#8FD6FF&#39;&gt;(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 87&quot;)))
+(display: &quot;Typewriter&quot;)
+}
+
+</tw-passagedata><tw-passagedata pid="393" name="Paradoja 7" tags="" position="975,1625" size="100,100">{
+(set: $text to &quot;No, en serio, ¿por qué hiciste eso?&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 8&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="394" name="Paradoja 8" tags="" position="1100,1650" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Ya veo que te mantuviste fiel a tu palabra, decidiendo no ayudar. Pero, sabes, al menos se hubiera agradecido que fueras de cara. Pero bueno, te voy a dar el beneficio de la duda. Vamos a ASUMIR que tú no querías hacer eso.&quot;)
+]
+(else:)[
+	(set: $text to &quot;Genuinamente no lo entiendo. ¿No querías ayudar? Entonces... ¿por qué?&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Paradoja 8&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="395" name="Paradoja 9" tags="" position="1150,1775" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;¿Realmente eres tan impaciente?&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Paradoja Temporal&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="396" name="FIN: Paradoja Temporal" tags="No_Skip" position="1175,1900" size="100,100">{
+(set: $finalID to &quot;paradoja_temporal&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/tu_y_mago.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: Paradoja Temporal
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Ascensor 65&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="397" name="Ascensor 87" tags="" position="3825,2400" size="100,100">{
+(set: $text to &quot;Debo confesarte que no tenía inicialmente muchas expectativas en ti.&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 88&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="398" name="Ascensor 88" tags="" position="3950,2400" size="100,100">{
+(if: $enfado is false)[
+	(set: $text to &quot;Simplemente no me dabas muy buena espina. No sé en qué pensaba el mago, una luz casualmente aparece, ¿y nos va a ayudar? Tenía mis reservas al respecto. Pero me alegro que nos hayas demostrado que querías ayudar.&quot;)
+]
+(else:)[
+	(set: $text to &quot;Creo que con tu calamitosa actuación al principio, nadie confiaba mucho en ti, pero bueno, podemos decir que te has redimido.&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Ascensor 89&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="399" name="Ascensor 89" tags="" position="4075,2400" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;En fin, lo que quiero decir es que... ¡muchas gracias por tu ayuda!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Chapuzón&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="400" name="FIN: Chapuzón" tags="No_Skip" position="4200,2400" size="100,100">{
+(set: $finalID to &quot;chapuzon&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/final_agua.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Bueno: ¡Chapuzón!
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Ascensor 65&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="401" name="Esperar 6" tags="" position="4300,1575" size="100,100">{
+(set: $text to &quot;¿Sabías que tu pasividad es bastante irritante?&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Esperar 7&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="402" name="Esperar 7" tags="" position="4175,1575" size="100,100">{
+(if: $enfado is false)[
+	(set: $text to &quot;No tengo muy claro a qué estabas esperando pasado ya cierto tiempo, la verdad.&quot;)
+]
+(else:)[
+	(set: $text to &quot;Primero pareces un niño hiperactivo, y de repente, esto...&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Esperar 8&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="403" name="Esperar 8" tags="" position="4050,1575" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Gracias por nada.&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Sin Milagros&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="404" name="FIN: Sin Milagros" tags="No_Skip" position="3925,1575" size="100,100">{
+(set: $finalID to &quot;sin_milagros&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/ignorarlo.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: No hay Milagros para los Olvidados
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Ascensor 11&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="405" name="Palanca 8" tags="" position="4175,1775" size="100,100">{
+(set: $text to &quot;Bueno, no puedo culparte demasiado por esto.&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 9&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="406" name="Palanca 9" tags="" position="4175,1900" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Por lo menos cambiaste de opinión y trataste de ayudar.&quot;)
+]
+(else:)[
+	(set: $text to &quot;Al menos lo intentaste, aunque no lograras sacar al mago de aquí.&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 10&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="407" name="Palanca 10" tags="" position="4300,1925" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Gracias por acompañarnos hasta el final...&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Descenso Carmesí&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="408" name="FIN: Descenso Carmesí" tags="No_Skip" position="4425,1925" size="100,100">{
+(set: $finalID to &quot;descenso_carmesi&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/luchando_final.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: Descenso Carmesí
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Ascensor 11&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="409" name="Asciende 5" tags="" position="5175,1175" size="100,100">{
+(set: $text to &quot;Vaya manera más cutre de acabar las cosas.&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Asciende 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="410" name="Asciende 6" tags="" position="5175,1300" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Al menos has sido coherente con tus palabras.&quot;)
+]
+(else:)[
+	(set: $text to &quot;Gran ayuda que has dado, como prometiste, ¡deberías estar orgulloso!&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Asciende 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="411" name="Asciende 7" tags="" position="5175,1425" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Para esto ni intervengas, esto ha sido francamente deprimente de presenciar.&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: A Mitad de Camino&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="412" name="FIN: A Mitad de Camino" tags="No_Skip" position="5175,1550" size="100,100">{
+(set: $finalID to &quot;a_mitad_de_camino&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/tu_y_mago.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: A Mitad de Camino
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Ascensor 9&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="413" name="Indeciso 3" tags="" position="5150,650" size="100,100">{
+(set: $text to &quot;Indeciso hasta la muerte, ¿eh?&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Indeciso 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="414" name="Indeciso 4" tags="" position="5025,650" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;O bueno, más que indecisión, no querer ayudar, ¿no?&quot;)
+]
+(else:)[
+	(set: $text to &quot;Teniendo en cuenta que dijiste que querías ayudar, eso quiero creer.&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Palanca 10&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="415" name="Indeciso 5" tags="" position="4900,650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;No tengo mucho más que decirte que no haya quedado claro. Te diría que gracias por estar con nosotros, pero no sé si realmente eras una presencia particularmente bienvenida dadas las circunstancias.&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Inacción&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="416" name="FIN: Inacción" tags="No_Skip" position="4775,650" size="100,100">{
+(set: $finalID to &quot;inaccion&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/ignorarlo.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: Inacción
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Pasarela 19&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="417" name="Error 4" tags="" position="5375,2150" size="100,100">{
+(set: $text to &quot;Realmente quiero creer que eso no ha sido a propósito...&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Error 5&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="418" name="Error 5" tags="" position="5325,2025" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;ESPERO sinceramente que no haya sido adrede, dado que dijiste que no querías ayudar...&quot;)
+]
+(else:)[
+	(set: $text to &quot;Ya sabes, dado que dijiste que querías ayudar, eso es lo que espero que haya sido...&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Error 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="419" name="Error 6" tags="" position="5275,1900" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;...porque nunca te lo perdonaría.&lt;/span&gt;.&quot;)
+]
+(else:)[
+	(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;aunque hubiera agradecido que no hubiera ocurrido.&lt;/span&gt;.&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Error Lógico&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="420" name="FIN: Error Lógico" tags="No_Skip" position="5225,1775" size="100,100">{
+(set: $finalID to &quot;error_logico&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/tu_y_mago.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: Error Lógico
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Pasarela 30&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="421" name="Pasarela 42" tags="" position="5950,2025" size="100,100">{
+(set: $text to &quot;A pesar de que empezaste un poco con el pie izquierdo...&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 43&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="422" name="Pasarela 43" tags="" position="6075,2025" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;...nos ayudaste a pesar de haber dicho lo contrario.&quot;)
+]
+(else:)[
+	(set: $text to &quot;...cumpliste tu palabra.&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Pasarela 44&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="423" name="Pasarela 44" tags="" position="6125,1900" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;¡Muchas gracias por ayudarnos!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Guía&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="424" name="FIN: Guía" tags="No_Skip" position="6125,1775" size="100,100">{
+(set: $finalID to &quot;guia&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/buen_final_abrazo.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Bueno: El Poder de un Guía
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Pasarela 30&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="425" name="Confianza 22" tags="" position="6000,775" size="100,100">{
+(set: $text to &quot;Eso ha estado bastante bien de tu parte, las cosas como son.&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 23&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="426" name="Confianza 23" tags="" position="6000,650" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Dijiste que no querías ayudar, ¡pero mírate ahora!&quot;)
+]
+(else:)[
+	(set: $text to &quot;Gracias por cambiar de opinión y ayudar.&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Confianza 24&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="427" name="Confianza 24" tags="" position="6125,650" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;¡Gracias por habernos dejado confiar en ti!&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Confianza&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="428" name="FIN: Confianza" tags="No_Skip" position="6250,650" size="100,100">{
+(set: $finalID to &quot;confianza&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/buen_final.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Bueno: El Poder de la Confianza
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Confianza 13&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="429" name="Traición 4" tags="" position="6000,150" size="100,100">{
+(set: $text to &quot;¿Te diviertes en ver a la gente sufrir? ¿Acaso te gusta dar esperanzas a la gente, para finalmente arrebatárselas de la forma más cruel posible? Eso es lo que me parece a mí.&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Traición 4&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="430" name="Traición 5" tags="" position="6125,150" size="100,100">{
+(if: $youWantToHelp is false)[
+	(set: $text to &quot;Me da igual que hayas dicho que no querías ayudar, esto es simplemente maldad.&quot;)
+]
+(else:)[
+	(set: $text to &quot;El hecho de que hayas dicho que querías ayudar tan solo prueba que lo que digo es verdad, simplemente no tienes corazón.&quot;)
+]
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;Traición 6&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="431" name="Traición 6" tags="" position="6250,150" size="100,100">{
+(set: $text to &quot;&lt;span style=&#39;color:#8FD6FF&#39;&gt;Piérdete. No quiero saber nada más de ti.&lt;/span&gt;&quot;)
+(set: $links to (a:(dm: &quot;name&quot;, &quot;&gt;&gt;&quot;, &quot;passage&quot;, &quot;FIN: Sin Remordimientos&quot;)))
+(display: &quot;Typewriter&quot;)
+}</tw-passagedata><tw-passagedata pid="432" name="FIN: Sin Remordimientos" tags="No_Skip" position="6250,275" size="100,100">{
+(set: $finalID to &quot;sin_remordimientos&quot;)
+(if: not ($finalesEncontrados contains $finalID))[
+	(set: $finalesEncontrados to it + (a: $finalID))
+]
+(print: &quot;&lt;script&gt;AudioSys.play(&#39;intro&#39;, &#39;audio/ana-intro-effect.mp3&#39;, false, 1.0)&lt;/script&gt;&quot;)
+&lt;!-- CONTENEDOR DE LA IMAGEN --&gt;
+&lt;div style=&quot;
+    width: 100%;
+    text-align: center;
+&quot;&gt;
+    &lt;img id=&quot;fadeImg&quot;
+         src=&quot;img/luchando_final.png&quot;
+         style=&quot;
+            max-width: 45vw;
+            height: auto;
+         &quot;&gt;
+&lt;/div&gt;
+
+&lt;!-- FLECHA QUE APARECE DESPUÉS --&gt;
+&lt;div id=&quot;continueArrow&quot;
+     style=&quot;
+        margin-top: 20px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.8s ease-in;
+        pointer-events: none;
+     &quot;&gt;
+     &lt;span style=&quot;display:block; text-align:center; color:white; font-weight:bold; font-		size:1.6em; margin-bottom:10px;&quot;&gt;
+    	Final Malo: Sin Remordimientos
+	&lt;/span&gt;
+    (link: &quot;Quiero volver a tomar otra decisión&quot;)[ (goto: &quot;Confianza 13&quot;) ]
+    &lt;br&gt;
+    (link: &quot;He terminado&quot;)[ (goto: &quot;FIN DEL JUEGO&quot;) ]
+&lt;/div&gt;
+
+&lt;style&gt;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+/* Mostrar la flecha cuando termine el fade */
+window.setTimeout(function () {
+    var arrow = document.getElementById(&quot;continueArrow&quot;);
+    if (arrow) {
+        arrow.style.opacity = &quot;1&quot;;
+        arrow.style.pointerEvents = &quot;auto&quot;;
+    }
+}, 1100);
+&lt;/script&gt;
 }</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
